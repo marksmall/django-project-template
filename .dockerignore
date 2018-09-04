@@ -1,0 +1,5 @@
+# Ignoring these files and others will greatly speed up `docker build`
+# as they won't be sent to the docker daemon. The node_modules are cached
+# in the root directory in the Dockerfile.
+.git
+node_modules

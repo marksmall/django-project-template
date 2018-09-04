@@ -1,0 +1,55 @@
+version: "3.5"
+services:
+  db:
+    image: kartoza/postgis:9.5-2.2
+    environment:
+      POSTGRES_USER: <DB USER>
+      POSTGRES_PASS: <DB PASSWORD>
+      POSTGRES_DBNAME: <DB NAME>
+      ALLOW_IP_RANGE: 0.0.0.0/0
+    ports:
+      - "5666:5432"
+    networks:
+      - <PROJECT NAME> # e.g. rapid
+
+  server:
+    build:
+      context: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings
+    command: >
+      -c "until echo > /dev/tcp/db/5432; do sleep 1; done"
+      -c "until test -f /opt/<PROJECT NAME>/<SUB-PROJECT NAME>/client/build/asset-manifest.json; do sleep 1; done"
+      -m "migrate --noinput"
+      -m "runserver 0.0.0.0:8000"
+    tty: true
+    volumes:
+      - .:/opt/<PROJECT NAME>/<SUB-PROJECT NAME>/
+      - ./client:/opt/<PROJECT NAME>/<SUB-PROJECT NAME>/client/
+    ports:
+      - "8000:8000"
+    networks:
+      - <PROJECT NAME> # e.g. rapid
+
+  client:
+    image: node:8.11.1
+    environment:
+      NODE_ENV: "development"
+    working_dir: /opt/<PROJECT NAME>/<SUB-PROJECT NAME>/client
+    volumes:
+      - ./client:/opt/<PROJECT NAME>/<SUB-PROJECT NAME>/client
+    command: bash -c "yarn install && yarn build && yarn start"
+    tty: true
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    networks:
+      - <PROJECT NAME> # e.g. rapid
+
+networks:
+  <PROJECT NAME>:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24
