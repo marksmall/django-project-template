@@ -15,9 +15,11 @@ services:
   server:
     build:
       context: .
+    env_file: .env
     environment:
-      - DJANGO_SETTINGS_MODULE=core.settings
+      - DJANGO_SETTINGS_MODULE={{project_name}}.settings
     command: >
+      -c "cd /opt/{{project_name}}/ && pipenv install --dev --system"
       -c "until echo > /dev/tcp/db/5432; do sleep 1; done"
       -c "until test -f /opt/{{project_name}}/client/build/asset-manifest.json; do sleep 1; done"
       -m "migrate --noinput"
