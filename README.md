@@ -1,10 +1,10 @@
-# Django 2.0+ project template
+# {{project_name}}
 
--   [Overview](#overview)
--   [Features](#features)
--   [How to install](#how-to-install)
--   [Environment variables](#environment-variables)
--   [How to start](#how-to-start)
+- [Overview](#overview)
+- [Features](#features)
+- [How to install](#how-to-install)
+- [Environment variables](#environment-variables)
+- [How to start](#how-to-start)
 
 ## Overview
 
@@ -12,13 +12,13 @@ This is a simple **Django 2.0+** project template with my preferred setup. It is
 
 ## Features
 
--   Django 2.0+
--   Uses [Pipenv](https://github.com/kennethreitz/pipenv) - the officially recommended Python packaging tool from Python.org.
--   Development, Staging and Production settings with [django-configurations](https://django-configurations.readthedocs.org).
--   Get value insight and debug information while on Development with [django-debug-toolbar](https://django-debug-toolbar.readthedocs.org).
--   Collection of custom extensions with [django-extensions](http://django-extensions.readthedocs.org).
--   HTTPS and other security related settings on Staging and Production.
--   PostgreSQL database support with psycopg2.
+- Django 2.0+
+- Uses [Pipenv](https://github.com/kennethreitz/pipenv) - the officially recommended Python packaging tool from Python.org.
+- Development, Staging and Production settings with [django-configurations](https://django-configurations.readthedocs.org).
+- Get value insight and debug information while on Development with [django-debug-toolbar](https://django-debug-toolbar.readthedocs.org).
+- Collection of custom extensions with [django-extensions](http://django-extensions.readthedocs.org).
+- HTTPS and other security related settings on Staging and Production.
+- PostgreSQL database support with psycopg2.
 
 ## How to install
 

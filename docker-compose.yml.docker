@@ -10,7 +10,7 @@ services:
     ports:
       - "5666:5432"
     networks:
-      - <PROJECT NAME> # e.g. rapid
+      - {{project_name}}
 
   server:
     build:
@@ -19,35 +19,35 @@ services:
       - DJANGO_SETTINGS_MODULE=core.settings
     command: >
       -c "until echo > /dev/tcp/db/5432; do sleep 1; done"
-      -c "until test -f /opt/<PROJECT NAME>/<SUB-PROJECT NAME>/client/build/asset-manifest.json; do sleep 1; done"
+      -c "until test -f /opt/{{project_name}}/client/build/asset-manifest.json; do sleep 1; done"
       -m "migrate --noinput"
       -m "runserver 0.0.0.0:8000"
     tty: true
     volumes:
-      - .:/opt/<PROJECT NAME>/<SUB-PROJECT NAME>/
-      - ./client:/opt/<PROJECT NAME>/<SUB-PROJECT NAME>/client/
+      - .:/opt/{{project_name}}/
+      - ./client:/opt/{{project_name}}/client/
     ports:
       - "8000:8000"
     networks:
-      - <PROJECT NAME> # e.g. rapid
+      - {{project_name}}
 
   client:
     image: node:8.11.1
     environment:
       NODE_ENV: "development"
-    working_dir: /opt/<PROJECT NAME>/<SUB-PROJECT NAME>/client
+    working_dir: /opt/{{project_name}}/client
     volumes:
-      - ./client:/opt/<PROJECT NAME>/<SUB-PROJECT NAME>/client
+      - ./client:/opt/{{project_name}}/client
     command: bash -c "yarn install && yarn build && yarn start"
     tty: true
     ports:
       - "3000:3000"
       - "35729:35729"
     networks:
-      - <PROJECT NAME> # e.g. rapid
+      - {{project_name}}
 
 networks:
-  <PROJECT NAME>:
+  {{project_name}}:
     driver: bridge
     ipam:
       driver: default

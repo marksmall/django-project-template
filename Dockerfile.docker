@@ -1,13 +1,12 @@
 FROM python:3.6
 
-LABEL project "<PROJECT NAME>"
-LABEL subproject "<SUB-PROJECT NAME>"
+LABEL project "{{project_name}}"
 
 ARG COMMIT_HASH="undefined"
 ARG GIT_BRANCH="undefined"
 ENV COMMIT_HASH=$COMMIT_HASH
 ENV GIT_BRANCH=$GIT_BRANCH
-ENV PROJECT_DIR=/opt/<PROJECT NAME>/<SUB-PROJECT NAME>
+ENV PROJECT_DIR=/opt/{{project_name}}
 ENV MANAGE_PY=$PROJECT_DIR/manage.py
 ENV PYTHONPATH=/usr/local/bin
 ENV DJANGO_SETTINGS_MODULE=core.settings
