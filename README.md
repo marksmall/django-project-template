@@ -28,6 +28,8 @@ $ django-admin.py startproject \
   --extension=py,md,env \
   project_name
 $ mv example.env .env
+$ mv Dockerfile.docker Dockerfile
+$ mv docker-compose.yml.docker docker-compose.yml
 $ pipenv install
 ```
 
