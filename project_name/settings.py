@@ -85,6 +85,18 @@ class Common(Configuration):
     DATABASES = values.DatabaseURLValue(
         'sqlite:///{}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
     )
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    #         'NAME': '{{ project_name }}',
+    #         'USER': '{{ project_name }}',
+    #         'PASSWORD': '{{ project_name }}',
+    #         'HOST': os.environ['DJANGO_SETTING_DATABASE_HOST'],
+    #     }
+    # }
+    # DATABASES = values.DatabaseURLValue(
+    #     'postgis:///{}:{}@{}:{}/{}'.format(values.Value('DATABASE_USER'), values.Value('DATABASE_PASSWORD'), os.environ['DJANGO_SETTING_DATABASE_HOST'], values.Value('DATABASE_PORT'), '{{ project_name }}')
+    # )
 
     # Password validation
     # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#auth-password-validators
