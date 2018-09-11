@@ -3,3 +3,18 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+:root {
+  --primary-color: #5796e2;
+  --secondary-color: #fff;
+  --grey-color: #808080;
+  --black-color: #000;
+  --dialog-color: #86dbe9;
+  --dialog-background-color: #eef1f6;
+  --text-color: #fff;
+  --box-shadow: 0 1px 2px var(--grey-color);
+  --highlight-color: #f77981;
+  --border: 1px solid #808080;
+  --success-color: #006a4e;
+  --button-color: #729cc3;
+}
