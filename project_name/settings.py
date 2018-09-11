@@ -36,8 +36,12 @@ class Common(Configuration):
 
         'django.contrib.gis',
         'corsheaders',
+        'rest_framework',
         'django_filters',
         'django_extensions',
+
+        'rest_framework_gis',
+
         'debug_toolbar',
 
         '{{ project_name }}',
@@ -123,6 +127,23 @@ class Common(Configuration):
     WHITENOISE_ROOT = os.path.join(BASE_DIR, 'client/build')
 
     # AUTH_USER_MODEL = 'users.User'
+
+    # Django Rest Framework
+    REST_FRAMEWORK = {
+        'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated',
+        ],
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework.authentication.SessionAuthentication',
+        ],
+        'COERCE_DECIMAL_TO_STRING':
+        False,
+        'DEFAULT_FILTER_BACKENDS':
+        ('django_filters.rest_framework.DjangoFilterBackend', ),
+    }
+
 
 
 class Development(Common):
