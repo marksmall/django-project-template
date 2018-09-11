@@ -3,9 +3,9 @@ services:
   db:
     image: kartoza/postgis:9.5-2.2
     environment:
-      POSTGRES_USER: <DB USER>
-      POSTGRES_PASS: <DB PASSWORD>
-      POSTGRES_DBNAME: <DB NAME>
+      POSTGRES_USER: {{project_name}}
+      POSTGRES_PASS: {{project_name}}
+      POSTGRES_DBNAME: {{project_name}}
       ALLOW_IP_RANGE: 0.0.0.0/0
     ports:
       - "5666:5432"
@@ -23,6 +23,7 @@ services:
       -c "until echo > /dev/tcp/db/5432; do sleep 1; done"
       -c "until test -f /opt/{{project_name}}/client/build/asset-manifest.json; do sleep 1; done"
       -m "migrate --noinput"
+      -m "collectstatic --noinput"
       -m "runserver 0.0.0.0:8000"
     tty: true
     volumes:
