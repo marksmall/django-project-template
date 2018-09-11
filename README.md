@@ -25,7 +25,7 @@ This is a simple **Django 2.0+** project template with my preferred setup. It is
 ```bash
 $ django-admin.py startproject \
   --template=https://github.com/marksmall/django-project-template/archive/master.zip \
-  --extension=py,md,env \
+  --extension=py,md,env,docker \
   project_name
 $ mv example.env .env
 $ mv Dockerfile.docker Dockerfile
@@ -33,28 +33,30 @@ $ mv docker-compose.yml.docker docker-compose.yml
 $ pipenv install
 ```
 
+This will scaffold a new Django/React project, ran inside Docker containers. `project_name` should be the name you want to give to your project. The name you give your project will be interpolated through the files with the **extensions**, named in the command.
+
 ## Environment variables
 
 These are common between environments. The `ENVIRONMENT` variable loads the correct settings, possible values are: `DEVELOPMENT`, `STAGING`, `PRODUCTION`.
 
 ```bash
-ENVIRONMENT='DEVELOPMENT'
-DJANGO_SECRET_KEY='dont-tell-eve'
-DJANGO_DEBUG='yes'
+ENVIRONMENT=DEVELOPMENT
+DJANGO_SECRET_KEY=dont-tell-eve
+DJANGO_DEBUG=yes
 ```
 
 These settings(and their default values) are only used on staging and production environments.
 
 ```bash
-DJANGO_SESSION_COOKIE_SECURE='yes'
-DJANGO_SECURE_BROWSER_XSS_FILTER='yes'
-DJANGO_SECURE_CONTENT_TYPE_NOSNIFF='yes'
-DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS='yes'
+DJANGO_SESSION_COOKIE_SECURE=yes
+DJANGO_SECURE_BROWSER_XSS_FILTER=yes
+DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=yes
+DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=yes
 DJANGO_SECURE_HSTS_SECONDS=31536000
-DJANGO_SECURE_REDIRECT_EXEMPT=''
-DJANGO_SECURE_SSL_HOST=''
-DJANGO_SECURE_SSL_REDIRECT='yes'
-DJANGO_SECURE_PROXY_SSL_HEADER='HTTP_X_FORWARDED_PROTO,https'
+DJANGO_SECURE_REDIRECT_EXEMPT=
+DJANGO_SECURE_SSL_HOST=
+DJANGO_SECURE_SSL_REDIRECT=yes
+DJANGO_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https
 ```
 
 ## How to start
@@ -66,5 +68,6 @@ Starting the project starts 3 separate **Docker containers** (in order):
 1. Server api
 
 ```bash
-docker-compose up --build
+$ docker-compose up --build
+$ docker-compose exec server createsuperuser
 ```
