@@ -1,41 +1,62 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
 [packages]
-dj-database-url = "==0.5.0"
-django-configurations = "==2.1"
-django-cors-headers = "==2.4.0"
-django-debug-toolbar = "==1.9.1"
-django-extensions = "==2.1.2"
-django-filter = "==2.0.0"
-djangorestframework = "==3.8.2"
-djangorestframework-gis = "==0.13"
-Django = "==2.1.1"
-geopandas = "==0.4.0"
-pandas = "==0.23.4"
-psycopg2 = "==2.7.5"
-pytz = "==2018.5"
-pyyaml = "==3.13"
-uwsgi = "==2.0.17.1"
-whitenoise = "==4.0"
+# django... duh
+django = ">=2.2.0"
+# docker health-checking
+django-health-check = ">=3.10.2"
+# wsgi... duh
+uwsgi = ">=2.0.18"
+# postgresql support
+psycopg2-binary = ">=2.8.3"
+# cross-origin resource sharing
+django-cors-headers = ">=3.0.2"
+# access environment variables
+django-environ = ">=0.4.5"
+# strong password hashing
+argon2-cffi = ">=19.1.0"
+# S3 Bucket access
+boto3 = ">=1.9.220"
+# MapBox SDK
+mapbox = ">=0.18.0"
+# API... duh
+djangorestframework = "==3.9.4"
+# API for GIS
+djangorestframework-gis = ">=0.14.0"
+# API documentation
+django-rest-swagger = ">=2.2.0"
+# dynamic API
+drf-flex-fields = ">=0.5.0"
+# extended API filters
+django-filter = ">=2.1.0"
+# data processing
+pandas = ">=0.25.0"
+# GIS data processing
+geopandas = ">=0.5.1"
+# static file management (gzipping, etc.)
+whitenoise = ">=4.1.2"
+# plain-text content zipping (files & responses)
+brotli = ">=1.0.7"
+# astrosat-specific code
+django-astrosat-core = {editable = true,git = "https://github.com/astrosat/django-astrosat-core.git",ref = "master"}
+django-astrosat-users = {editable = true,git = "https://github.com/astrosat/django-astrosat-users.git",ref = "master"}
 
 [dev-packages]
-codecov = "==2.0.15"
-coverage = "==4.5.1"
-coveralls = "==1.5.0"
-django-nose = "==1.4.5"
-factory-boy = "==2.11.1"
-flake8 = "==3.5.0"
-pytest = "==3.7.4"
-pytest-cov = "==2.6.0"
-pytest-django = "==3.4.2"
-pytest-sugar = "==0.9.1"
-sphinx = "==1.7.8"
-sphinx_rtd_theme = "==0.4.1"
-Werkzeug = "==0.14.1"
+# coverage reports for GitHub, GitLab, etc.
+codecov = ">=2.0.15"
+# live debug info
+django-debug-toolbar = ">=2.0"
+# test fixtures replacement
+factory-boy = ">=2.12"
+# test library
+pytest = ">=5.1.2"
+# pytest django plugin
+pytest-django = ">=3.5"
+# pytest look-and-feel plugin
+pytest-sugar = ">=0.9"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7.3"

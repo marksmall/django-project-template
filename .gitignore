@@ -85,5 +85,9 @@ target/
 __pycache__/
 local_settings.py
 
-.env
-db.sqlite3
+### local environment files
+.env.local
+client/cypress/integration/examples/*
+client/cypress/screenshots
+client/cypress/videos
+client/reports/

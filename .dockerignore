@@ -1,5 +1,24 @@
 # Ignoring these files and others will greatly speed up `docker build`
 # as they won't be sent to the docker daemon. The node_modules are cached
 # in the root directory in the Dockerfile.
-.git
-node_modules
+.git*
+**/*@tmp
+**/README.rst
+**/CHANGELOG.rst
+docker-compose.yml
+Jenkinsfile
+.DS_Store
+**/node_modules
+**/coverage
+**/.coverage
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pytest_cache/
+**/*.pyc
+**/.vscode
+.vagrant
+*.code-workspace
+*.bak
+
+server/media/*

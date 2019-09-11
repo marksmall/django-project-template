@@ -1,0 +1,53 @@
+version: "3.5"
+
+services:
+  db:
+    image: kartoza/postgis:11.0-2.5
+    environment:
+      POSTGRES_USER: {{project_name}}
+      POSTGRES_PASS: {{project_name}}
+      POSTGRES_DBNAME: {{project_name}}
+      ALLOW_IP_RANGE: 0.0.0.0/0
+    ports:
+      - "5666:5432"
+    networks:
+      - {{project_name}}
+
+  server:
+    build:
+      context: .
+    tty: true
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - PIPENV_NOSPIN=1
+    command: >
+      -c "cd /opt/{{project_name}}/ && pipenv install --dev --system"
+      -c "until echo > /dev/tcp/db/5432; do sleep 1; done"
+      -m "migrate --noinput"
+      -m "runserver 0.0.0.0:8000"
+    volumes:
+      - .:/opt/{{project_name}}/
+      - ./client:/opt/{{project_name}}/client/
+    ports:
+      - "8000:8000"
+    networks:
+      - {{project_name}}
+
+  client:
+    image: node:10.15.3
+    environment:
+      NODE_ENV: "development"
+    working_dir: /opt/{{project_name}}/client
+    volumes:
+      - ./client:/opt/{{project_name}}/client
+    command: bash -c "yarn install && yarn build && yarn start"
+    tty: true
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    networks:
+      - {{project_name}}
+
+networks:
+  {{project_name}}:
+    driver: bridge

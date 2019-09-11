@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ThermCERT{% endblock title %}</title>
+    <link rel="icon" href="{% static 'core/img/favicon.ico' %}">
+
+    {% block style %}
+      <link href="{% static 'core/css/base.css' %}" rel="stylesheet">
+    {% endblock style %}
+
+  </head>
+
+  <body id="astrosat">
+
+    <div class="container">
+      <div class="night-lights">
+        <div class="blue-bar"></div>
+      </div>
+      <div class="eon">
+        <div class="eon-logo">
+          <img src="{% static 'core/img/eon.svg' %}"/>
+        </div>
+        <div class="yellow-bar"></div>
+        <div class="red-bar"></div>
+      </div>
+    </div>
+    <!-- /.container -->
+
+    <div class="box-container">
+      <div class="box">
+        <a href="/" title="home">
+         <div class="logo">
+            <img class="logo" src="{% static 'core/img/astrosat-logo.png' %}" alt="Astrosat logo" />
+          </div>  <!-- /.logo -->
+        </a>
+        <div class="content">
+          {% block content %}
+            you forgot to add content!
+          {% endblock content %}
+        </div> <!-- /.content -->
+      </div>  <!-- /.box -->
+    </div>  <!-- /.container -->
+
+    {% block javascript %}
+      <!-- local scripts go here -->
+    {% endblock javascript %}
+
+  </body>
+
+</html>

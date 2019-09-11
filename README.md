@@ -1,10 +1,11 @@
 # {{project_name}}
 
-- [Overview](#overview)
-- [Features](#features)
-- [How to install](#how-to-install)
-- [Environment variables](#environment-variables)
-- [How to start](#how-to-start)
+- [{{project_name}}](#projectname)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [How to install](#how-to-install)
+  - [Environment variables](#environment-variables)
+  - [How to start](#how-to-start)
 
 ## Overview
 
@@ -25,7 +26,7 @@ This is a simple **Django 2.0+** project template with my preferred setup. It is
 ```bash
 $ django-admin.py startproject \
   --template=https://github.com/marksmall/django-project-template/archive/master.zip \
-  --extension=py,md,env,docker \
+  --extension=py,md,template \
   project_name
 $ mv example.env .env
 $ mv Dockerfile.docker Dockerfile
