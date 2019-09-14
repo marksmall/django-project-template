@@ -1,0 +1,98 @@
+.menu-button-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile {
+  width: 100%;
+  height: auto;
+  fill: #808080;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  /* background-size: contain; */
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 4rem;
+  right: -0.3rem;
+  border: 8px solid var(--menu-border);
+  min-width: 12rem;
+  list-style: none;
+  padding: unset;
+  color: var(--menu-foreground);
+  background-color: var(--menu-background);
+}
+
+.menu:before {
+  content: '';
+  position: absolute;
+  right: 11px;
+  top: -10px;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+  border-color: transparent transparent var(--menu-background) transparent;
+  z-index: 9999;
+}
+
+.menu:after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  top: -22px;
+  border-style: solid;
+  border-width: 0 17px 17px 17px;
+  border-color: transparent transparent var(--menu-border) transparent;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #000;
+}
+
+.menu-item:hover {
+  background-color: var(--menu-item-hover);
+}
+
+.menu-item:active {
+  background-color: var(--menu-item-active);
+}
+
+.menu-header {
+  /* padding: 0.5rem 0; */
+}
+
+.menu-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: var(--menu-foreground);
+  border: none;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  text-decoration: none;
+  width: 100%;
+  cursor: pointer;
+}

@@ -1,0 +1,26 @@
+.select {
+  width: 10rem;
+  padding-left: 0.5rem;
+}
+
+.select div {
+  background-color: var(--header-background-color);
+  color: var(--foreground-color);
+  cursor: pointer;
+}
+
+.select div:nth-child(3n) div div:hover {
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+}
+
+.select svg {
+  fill: var(--button-background);
+}
+
+.label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

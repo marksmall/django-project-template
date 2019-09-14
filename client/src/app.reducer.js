@@ -7,7 +7,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_APP_CONFIG:
-      return { state, config: action.config };
+      return { ...state, config: action.config };
 
     default:
       return state;

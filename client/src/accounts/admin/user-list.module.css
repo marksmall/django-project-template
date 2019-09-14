@@ -1,0 +1,13 @@
+.table-container {
+  position: fixed;
+  top: 6rem;
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  background-color: #fff;
+  color: #000;
+}
+
+.strapline {
+  color: green;
+}

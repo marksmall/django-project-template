@@ -22,6 +22,7 @@ from {{project_name}}.urls import (
 )
 
 from .views import index_view
+from .views_api import app_config_view
 
 
 app_name = "core"
@@ -46,6 +47,7 @@ handler500 = "astrosat.views.handler500"
 api_router = SimpleRouter()
 api_urlpatterns = [
     path("", include(api_router.urls)),
+    path("app/config", app_config_view, name="appconfig"),
     path("swagger/", get_swagger_view(title="{{project_name}} API"), name="swagger")
 ]
 api_urlpatterns += astrosat_api_urlpatterns

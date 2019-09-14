@@ -1,0 +1,54 @@
+.user-detail-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-detail-form {
+  padding: 3rem;
+  border: 1px solid #000;
+  border-radius: 0.4rem;
+  list-style-type: none;
+}
+
+.form-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.label {
+  color: green;
+  font-weight: bolder;
+}
+
+.input {
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  color: blue;
+}
+
+.error {
+  border-color: red;
+  color: red;
+}
+
+.error-message {
+  color: red;
+}
+
+.required {
+  margin-left: 0.5rem;
+  font-size: smaller;
+  color: red;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  margin: 1rem;
+  padding: 0.5rem;
+}

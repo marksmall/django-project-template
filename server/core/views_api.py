@@ -6,6 +6,9 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
+from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.decorators import api_view
 
 URLPatternTuple = namedtuple("UrlPatternTuple", ["name", "reverse_name"])
 
@@ -77,3 +80,8 @@ class APIRootView(APIView):
         ])
 
         return Response(api_dict)
+
+@api_view(['GET'])
+def app_config_view(request):
+    """ Return hard-coded app config """
+    return JsonResponse({ 'trackingId': 'mytrackingid'}, status=status.HTTP_200_OK)

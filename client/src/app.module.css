@@ -1,28 +1,129 @@
+.light {
+  --foreground-color-primary: #3a3b4d;
+  --background-color-primary: #fff;
+  --foreground-color-secondary: #f2f2f2;
+  --background-color-secondary: #f2f2f2;
+
+  --button-background: #5795f1;
+  --button-background-disabled: var(--button-background);
+  --button-background-hover: #6fa2ec;
+  --button-background-active: #4984dc;
+  --button-text: #fff;
+
+  --close-button-text: #3a3b4d;
+  --close-button-hover: #b7b7b7;
+  --close-button-active: #cfcfcf;
+
+  --toggle-button-background: #b7b7b7;
+  --toggle-button-background-active: #979797;
+  --toggle-button-border: #3a3b4d;
+  --toggle-button-slider: #f2f2f2;
+  --toggle-button-slider-active: #5795f1;
+
+  --tabbed-panel-tab: #5795f1;
+  --tabbed-panel-tab-hover: #6fa2ec;
+  --tabbed-panel-tab-active: #5795f1;
+
+  --list-item-background: rgba(87, 149, 241, 0.7);
+  --list-item-background-hover: rgba(87, 149, 241, 0.25);
+
+  --menu-foreground: #fff;
+  --menu-background: #5795f1;
+  --menu-border: #808080;
+  --menu-item-hover: #6fa2ec;
+  --menu-item-active: #4984dc;
+
+  --search: url('/search-light.svg');
+}
+
+.dark {
+  --foreground-color-primary: #fff;
+  --background-color-primary: #3a3b4d;
+  --foreground-color-secondary: #f2f2f2;
+  --background-color-secondary: #424357;
+
+  --button-background: #e8c786;
+  --button-background-disabled: var(--button-background);
+  --button-background-hover: #dcb871;
+  --button-background-active: #e9b650;
+  --button-text: #3a3b4d;
+
+  --close-button-text: #f2f2f2;
+  --close-button-hover: #b7b7b7;
+  --close-button-active: #cfcfcf;
+
+  --toggle-button-background: #b7b7b7;
+  --toggle-button-background-active: #979797;
+  --toggle-button-border: #3a3b4d;
+  --toggle-button-slider: #f2f2f2;
+  --toggle-button-slider-active: #e9b650;
+
+  --tabbed-panel-tab: #e8c786;
+  --tabbed-panel-tab-hover: #dcb871;
+  --tabbed-panel-tab-active: #e8c786;
+
+  --list-item-background: rgba(221, 185, 114, 0.7);
+  --list-item-background-hover: rgba(221, 185, 114, 0.25);
+
+  --menu-foreground: #000;
+  --menu-background: #e8c786;
+  --menu-border: #fff;
+  --menu-item-hover: #dcb871;
+  --menu-item-active: #e9b650;
+
+  --search: url('/search-dark.svg');
+}
+
 .app {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+
+  color: var(--foreground-color-primary);
+  background-color: var(--background-color-primary);
 }
 
-/* .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 auto;
+  width: 100vw;
+
+  background-color: var(--background-color-secondary);
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
 }
 
-.App-title {
-  font-size: 1.5em;
+.footer {
+  flex-shrink: 0;
 }
 
-.App-intro {
-  font-size: large;
+.nav {
+  display: flex;
+  list-style: none;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-} */
+.navItem {
+  display: flex;
+  text-decoration: none;
+  padding: 0.5rem;
+  color: var(--button-text);
+  background-color: var(--button-background);
+}
+
+.navItem:hover {
+  background-color: var(--button-background-hover);
+}

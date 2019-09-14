@@ -5,13 +5,19 @@ import { combineReducers } from 'redux';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
-import appConfig from './app.reducer';
+import app from './app.reducer';
+import accounts from './accounts/accounts.reducer';
+import theming from './theming/theming.reducer';
+import admin from './accounts/admin/users.reducer';
 
 export const history = createBrowserHistory();
 
 const createRootReducer = history =>
   combineReducers({
-    app: appConfig,
+    app,
+    accounts,
+    theming,
+    admin,
     router: connectRouter(history)
   });
 

@@ -1,0 +1,21 @@
+.close {
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  padding: 0.5rem;
+  background-color: transparent;
+}
+
+.close:hover {
+  background-color: var(--close-button-hover);
+}
+
+.close:active {
+  background-color: var(--close-button-active);
+}
+
+.icon {
+  height: 1rem;
+  fill: var(--close-button-text);
+}

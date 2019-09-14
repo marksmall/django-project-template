@@ -1,0 +1,48 @@
+button.button {
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.button {
+  background: var(--button-background);
+  text-decoration: none;
+  color: var(--button-text);
+  border-radius: 2px;
+  padding: 0.125rem 1.1875rem;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover,
+.button:focus {
+  background: var(--button-background-hover);
+  outline: none;
+}
+
+.disabled {
+  background: var(--button-background-disabled);
+  opacity: 0.5;
+}
+
+.active,
+.button:active {
+  background: var(--button-background-active);
+}
+
+.round {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+  margin: unset;
+  border-radius: 50%;
+}
+
+.no-padding {
+  padding: 0;
+}
