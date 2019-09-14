@@ -91,3 +91,4 @@ client/cypress/integration/examples/*
 client/cypress/screenshots
 client/cypress/videos
 client/reports/
+node_modules/

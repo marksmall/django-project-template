@@ -26,11 +26,9 @@ This is a simple **Django 2.0+** project template with my preferred setup. It is
 ```bash
 $ django-admin.py startproject \
   --template=https://github.com/marksmall/django-project-template/archive/master.zip \
-  --extension=py,md,template \
+  --extension=py,md,template,json \
   project_name
-$ mv example.env .env
-$ mv Dockerfile.docker Dockerfile
-$ mv docker-compose.yml.docker docker-compose.yml
+$ for f in `ls -a .env* *.template`; do mv $f ${f%.*}; done
 $ pipenv install
 ```
 

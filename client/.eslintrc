@@ -1,6 +1,6 @@
 {
   "extends": "react-app",
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "react-hooks"],
   "rules": {
     "prettier/prettier": "error",
     "jsx-a11y/href-no-hash": "off",
@@ -9,6 +9,8 @@
       {
         "aspects": ["invalidHref"]
       }
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error"
   }
 }

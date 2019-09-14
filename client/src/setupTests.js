@@ -1,12 +1,13 @@
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-import 'jest-enzyme';
-
 import fetchMock from 'jest-fetch-mock';
+import '@testing-library/jest-dom/extend-expect';
 
-jest.mock('mapbox-gl', () => ({ ScaleControl: jest.fn() }));
+import './polyfills/flat-map';
+import './polyfills/array-flat';
+import './polyfills/object-fromEntries';
 
-configure({ adapter: new Adapter() });
+jest.mock('react-ga', () => ({
+  event: jest.fn()
+}));
 
 global.fetch = fetchMock;
+global.requestIdleCallback = jest.fn().mockImplementation(args => setTimeout(args, 0));
