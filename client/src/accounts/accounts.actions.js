@@ -158,8 +158,8 @@ export const logout = history => async dispatch => {
 
 export const changePassword = form => async (dispatch, getState) => {
   const {
-    account: {
-      user: { key }
+    accounts: {
+      userKey: { key }
     }
   } = getState();
   console.log('CHANGE PASSWORD: ', key, form);

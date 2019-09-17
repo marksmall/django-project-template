@@ -99,7 +99,7 @@ const RegisterForm = ({ register }) => {
         {errors.password2 && <p className={styles['error-message']}>{errors.password2}</p>}
 
         <div className={styles.buttons}>
-          <Button className={styles.button} onClick={reset} disabled={Object.keys(values).length === 0}>
+          <Button type="reset" className={styles.button} onClick={reset} disabled={Object.keys(values).length === 0}>
             Reset
           </Button>
 

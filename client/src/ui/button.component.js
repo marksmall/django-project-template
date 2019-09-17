@@ -1,17 +1,7 @@
 import React from 'react';
 import styles from './button.module.css';
 
-const Button = ({
-  children,
-  onClick,
-  href,
-  disabled = false,
-  active,
-  padded = true,
-  type,
-  className,
-  ariaLabel
-}) => {
+const Button = ({ children, onClick, href, disabled = false, active, padded = true, type, className, ariaLabel }) => {
   const props = {};
   const classes = [styles.button];
   if (type) classes.push(styles[type]);
@@ -36,7 +26,7 @@ const Button = ({
   return href ? (
     <a {...props}>{children}</a>
   ) : (
-    <button {...props} disabled={disabled} aria-label={ariaLabel}>
+    <button type={type} {...props} disabled={disabled} aria-label={ariaLabel}>
       {children}
     </button>
   );

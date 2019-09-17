@@ -22,6 +22,8 @@ import UpdateUserContainer from './accounts/update-user-form.container';
 import PasswordResetDone from './accounts/password-reset-done.component';
 import PasswordResetConfirmContainer from './accounts/password-reset-confirm-form.container';
 
+import useAuthorization from './hooks/useAuthorization';
+
 import { history } from './store';
 
 import styles from './app.module.css';
@@ -48,6 +50,8 @@ const App = () => {
     },
     [dispatch]
   );
+
+  const isAdminAuthorized = useAuthorization(user, ['IsManager']);
 
   // If the Google Analytics tracking id doesn't exist, fetch it,
   // then setup analytics. This should only be done once on app
@@ -81,10 +85,17 @@ const App = () => {
               Protected Page
             </Link>
           </li>
-          {user && (
+          {user && isAdminAuthorized && (
             <li>
               <Link className={styles.navItem} to="/admin">
                 Admin
+              </Link>
+            </li>
+          )}
+          {!user && (
+            <li>
+              <Link className={styles.navItem} to="/register">
+                Register
               </Link>
             </li>
           )}
