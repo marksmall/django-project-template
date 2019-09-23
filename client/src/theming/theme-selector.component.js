@@ -7,7 +7,7 @@ import styles from './theme-selector.module.css';
 
 const ThemeSelector = React.memo(({ themes, selectedTheme, selectTheme }) => (
   <label className={styles.label}>
-    <strong>Application Theme:</strong>
+    <strong>Theme:</strong>
     <Select
       defaultValue={selectedTheme}
       className={styles.select}

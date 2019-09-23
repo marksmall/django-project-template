@@ -77,12 +77,12 @@ const App = () => {
         <ul className={styles.nav}>
           <li>
             <Link className={styles.navItem} to="/public">
-              Public Page
+              Public
             </Link>
           </li>
           <li>
             <Link className={styles.navItem} to="/protected">
-              Protected Page
+              Protected
             </Link>
           </li>
           {user && isAdminAuthorized && (
