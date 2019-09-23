@@ -24,6 +24,8 @@ import PasswordResetConfirmContainer from './accounts/password-reset-confirm-for
 
 import useAuthorization from './hooks/useAuthorization';
 
+import MapLayout from './map';
+
 import { history } from './store';
 
 import styles from './app.module.css';
@@ -53,71 +55,75 @@ const App = () => {
 
   const isAdminAuthorized = useAuthorization(user, ['IsManager']);
 
+  // If page refreshed, ensure we try to retrieve the logged in user.
+  useEffect(() => {
+    if (!user) {
+      dispatch(fetchUser());
+      dispatch(fetchAppConfig());
+    }
+  }, [dispatch, user]);
+
   // If the Google Analytics tracking id doesn't exist, fetch it,
   // then setup analytics. This should only be done once on app
   // startup.
   useEffect(() => {
     if (!trackingId) {
-      dispatch(fetchAppConfig());
       ReactGA.initialize(trackingId, { debug: true });
       ReactGA.pageview('/', null, 'APPLICATION NAME App');
     }
   }, [dispatch, trackingId]);
 
-  // If page refreshed, ensure we try to retrieve the logged in user.
-  useEffect(() => {
-    if (!user) {
-      dispatch(fetchUser());
-    }
-  }, [dispatch, user]);
-
   return (
     <div className={`${styles.app} ${styles[selectedTheme.value]}`}>
-      <header className={styles.header}>
-        <ul className={styles.nav}>
-          <li>
-            <Link className={styles.navItem} to="/public">
-              Public
-            </Link>
-          </li>
-          <li>
-            <Link className={styles.navItem} to="/protected">
-              Protected
-            </Link>
-          </li>
-          {user && isAdminAuthorized && (
+      <header>
+        <nav>
+          <ul className={styles.nav}>
             <li>
-              <Link className={styles.navItem} to="/admin">
-                Admin
+              <Link className={styles.navItem} to="/public">
+                Public
               </Link>
             </li>
-          )}
-          {!user && (
             <li>
-              <Link className={styles.navItem} to="/register">
-                Register
+              <Link className={styles.navItem} to="/protected">
+                Protected
               </Link>
             </li>
-          )}
-          {!user && (
+            {user && isAdminAuthorized && (
+              <li>
+                <Link className={styles.navItem} to="/admin">
+                  Admin
+                </Link>
+              </li>
+            )}
+            {!user && (
+              <li>
+                <Link className={styles.navItem} to="/register">
+                  Register
+                </Link>
+              </li>
+            )}
+            {!user && (
+              <li>
+                <Link className={styles.navItem} to="/login">
+                  Login
+                </Link>
+              </li>
+            )}
             <li>
-              <Link className={styles.navItem} to="/login">
-                Login
-              </Link>
+              <ThemeSelector themes={themes} selectedTheme={selectedTheme} selectTheme={dispatchSelectTheme} />
             </li>
-          )}
-          <li>
-            <ThemeSelector themes={themes} selectedTheme={selectedTheme} selectTheme={dispatchSelectTheme} />
-          </li>
-          {user && (
-            <li>
-              <AccountMenuButton user={user} logout={() => dispatch(logout(history))} />
-            </li>
-          )}
-        </ul>
+            {user && (
+              <li>
+                <AccountMenuButton user={user} logout={() => dispatch(logout(history))} />
+              </li>
+            )}
+          </ul>
+        </nav>
       </header>
 
       <main>
+        {user && <MapLayout />}
+
         <Switch>
           <Route path="/public" component={Public} />
           <Route exact path="/register" component={RegisterFormContainer} />
@@ -137,11 +143,13 @@ const App = () => {
         </Switch>
       </main>
 
-      <footer>
-        <a href="http://www.astrosat.space" target="_blank" rel="noopener noreferrer">
-          Brought to you by Astrosat
-        </a>
-      </footer>
+      {!user && (
+        <footer>
+          <a href="http://www.astrosat.space" target="_blank" rel="noopener noreferrer">
+            Brought to you by Astrosat
+          </a>
+        </footer>
+      )}
     </div>
   );
 };

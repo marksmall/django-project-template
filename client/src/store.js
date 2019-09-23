@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
+import map from './map/map.reducer';
 import app from './app.reducer';
 import accounts from './accounts/accounts.reducer';
 import theming from './theming/theming.reducer';
@@ -14,6 +15,7 @@ export const history = createBrowserHistory();
 
 const createRootReducer = history =>
   combineReducers({
+    map,
     app,
     accounts,
     theming,

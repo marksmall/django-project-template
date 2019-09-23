@@ -1,0 +1,32 @@
+.list,
+.row,
+.address {
+  list-style-type: none;
+}
+
+.list,
+.row {
+  padding-left: unset;
+}
+
+.list {
+  margin: 0.5rem 0 0 0;
+}
+
+.list > li {
+  padding: 0.2rem 0;
+}
+
+.label {
+  font-weight: bolder;
+  padding-right: 0.3rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pad-right {
+  padding-right: 0.5rem;
+}

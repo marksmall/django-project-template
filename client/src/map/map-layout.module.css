@@ -1,0 +1,177 @@
+.map-column {
+  flex-grow: 1;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.layout {
+  display: grid;
+  height: 100vh;
+  width: 100%;
+}
+.layout.layout-1 {
+}
+.layout.layout-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.layout.layout-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.layout.layout-4 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2.7rem;
+  width: 100%;
+  background-color: var(--background-color-with-opacity);
+}
+
+.map {
+  flex-grow: 1;
+  min-width: 33%;
+  border: 1px solid var(--background-color);
+}
+
+/** MAPBOX OVERRIDES: */
+
+.layout-2 .map:nth-child(2) :global(.mapboxgl-ctrl-logo),
+.layout-3 .map:nth-child(2) :global(.mapboxgl-ctrl-logo),
+.layout-3 .map:nth-child(3) :global(.mapboxgl-ctrl-logo),
+.layout-4 .map:nth-child(1) :global(.mapboxgl-ctrl-logo),
+.layout-4 .map:nth-child(2) :global(.mapboxgl-ctrl-logo),
+.layout-4 .map:nth-child(4) :global(.mapboxgl-ctrl-logo) {
+  display: none;
+}
+
+.map :global(.mapboxgl-ctrl-group) {
+  background: var(--background-color);
+}
+
+.map :global(.mapboxgl-ctrl-group) > button + button {
+  border-top: 1px solid var(--button-background);
+  cursor: pointer;
+  color: var(--button-background);
+}
+
+.map :global(.mapboxgl-ctrl-zoom-in):before {
+  content: '+';
+}
+.map :global(.mapboxgl-ctrl-zoom-out):before {
+  content: '-';
+}
+.map :global(.mapboxgl-ctrl-zoom-in),
+.map :global(.mapboxgl-ctrl-zoom-out) {
+  background-image: none;
+  font-size: x-large;
+  color: var(--button-background);
+}
+
+.map :global(.mapboxgl-ctrl-compass) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.map :global(.mapboxgl-ctrl-compass):before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: 6px solid var(--button-background);
+}
+.map :global(.mapboxgl-ctrl-compass):after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 6px solid var(--foreground-color);
+}
+.map :global(.mapboxgl-ctrl-compass) > :global(.mapboxgl-ctrl-compass-arrow) {
+  color: var(--button-background);
+  background-image: none;
+  width: 0;
+  height: 0;
+  margin: 2px;
+}
+
+.map :global(.mapboxgl-ctrl-geocoder) {
+  z-index: 6;
+  position: absolute;
+  top: -8px;
+  background-color: var(--background-color);
+}
+
+.map :global(.mapboxgl-ctrl-geocoder) :global(.geocoder-icon-search) {
+  background-image: var(--search);
+}
+
+.map :global(.mapboxgl-ctrl-geocoder) input[type='text'],
+.map :global(.mapboxgl-ctrl-geocoder) input[type='text']::placeholder {
+  color: var(--foreground-color);
+}
+
+.map :global(.mapboxgl-popup-tip),
+.map :global(.mapboxgl-popup-anchor-top) :global(.mapboxgl-popup-tip),
+.map :global(.mapboxgl-popup-anchor-bottom) :global(.mapboxgl-popup-tip),
+.map :global(.mapboxgl-popup-anchor-left) :global(.mapboxgl-popup-tip),
+.map :global(.mapboxgl-popup-anchor-right) :global(.mapboxgl-popup-tip),
+.map :global(.mapboxgl-popup-anchor-top-left) :global(.mapboxgl-popup-tip),
+.map :global(.mapboxgl-popup-anchor-top-right) :global(.mapboxgl-popup-tip),
+.map :global(.mapboxgl-popup-anchor-bottom-left) :global(.mapboxgl-popup-tip),
+.map :global(.mapboxgl-popup-anchor-bottom-right) :global(.mapboxgl-popup-tip) {
+  border-top-color: var(--background-color);
+  border-bottom-color: var(--background-color);
+}
+
+.map :global(.mapboxgl-popup) :global(.mapboxgl-popup-content) {
+  background: var(--background-color);
+  border-radius: 1rem;
+}
+
+.map :global(.mapboxgl-popup-close-button) {
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--close-button-text);
+  color: var(--button-text);
+  font-size: x-large;
+}
+
+.map :global(.mapboxgl-popup-close-button):hover {
+  background-color: var(--close-button-hover);
+}
+
+.map :global(.mapboxgl-popup-close-button):active {
+  background-color: var(--close-button-active);
+}
+
+.map :global(.mapboxgl-popup-close-button) svg {
+  width: 1rem;
+  height: 1rem;
+  fill: var(--close-button-text);
+}
+
+.list {
+  list-style-type: none;
+  padding-left: unset;
+  padding-top: 1rem;
+}
+
+.label {
+  font-weight: bolder;
+  padding-right: 0.3rem;
+}
