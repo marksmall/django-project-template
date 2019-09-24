@@ -18,8 +18,6 @@ import { useMapEvent, useMapLayerEvent } from './use-map-event.hook';
 // import { selectedFeatureIds } from '../factsheet/factsheet.selector';
 // import { CUSTOM_DATA_THRESHOLD } from '../constants';
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
-
 // const interpolate = interpolation => (property, filter, values) => [
 //   interpolation,
 //   ['linear'],
@@ -48,6 +46,9 @@ const Map = (
   },
   ref
 ) => {
+  const accessToken = useSelector(state => state.app.config.mapbox_token);
+  mapboxgl.accessToken = accessToken;
+
   // const { properties, filters, currentFilters, visible, setBounds } = useMapCrossFilter(selectedProperty);
   // const selectedPropertyMetadata = properties.find(property => property.field === selectedProperty);
   const { mapContainer, mapInstance } = useMapbox(style);
@@ -71,7 +72,7 @@ const Map = (
   useMapControl(mapInstance, navigation, NavigationControl, 'bottom-right');
   useMapControl(mapInstance, scale, ScaleControl);
   useMapControl(mapInstance, geocoder, MapboxGeocoder, 'top-left', {
-    accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+    accessToken: accessToken,
     reverseGeocode: true,
     mapboxgl
   });
