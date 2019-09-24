@@ -34,6 +34,7 @@
     "react-table": "^6.10.3",
     "react-tooltip": "^3.11.1",
     "redux": "^4.0.4",
+    "redux-query-sync": "^0.1.9",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0"
   },

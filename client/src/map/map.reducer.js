@@ -7,7 +7,8 @@ import {
   INFRASTRUCTURE_DATA_REQUESTED_SUCCESS,
   INFRASTRUCTURE_DATA_REQUESTED_FAILURE,
   CUSTOM_DATA_REQUESTED_SUCCESS,
-  CUSTOM_DATA_REQUESTED_FAILURE
+  CUSTOM_DATA_REQUESTED_FAILURE,
+  SET_VIEWPORT
 } from './map.actions';
 
 const MAP_STYLE_DATA = [
@@ -34,6 +35,7 @@ const MAP_STYLE_DATA = [
 ];
 
 const initialState = {
+  viewport: { zoom: 6, center: [-4.84, 54.71] },
   mapStyles: MAP_STYLE_DATA,
   selectedMapStyle: MAP_STYLE_DATA[3],
   isMultiMapMode: false,
@@ -44,6 +46,9 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_VIEWPORT:
+      return { ...state, viewport: action.viewport };
+
     case MAP_STYLE_SELECTED:
       return { ...state, selectedMapStyle: action.mapStyle };
 

@@ -5,6 +5,8 @@ import { combineReducers } from 'redux';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
+import ReduxQuerySync from 'redux-query-sync';
+
 import map from './map/map.reducer';
 import app from './app.reducer';
 import accounts from './accounts/accounts.reducer';
@@ -38,5 +40,18 @@ if (process.env.NODE_ENV === 'development') {
   // 1. Create store composed of reducers and middleware.
   store = createStore(createRootReducer(history), applyMiddleware(...middleware));
 }
+
+ReduxQuerySync({
+  store,
+  params: {
+    viewport: {
+      selector: state => state.map.viewport,
+      action: value => ({ type: 'SET_VIEWPORT', viewport: value }),
+      stringToValue: string => JSON.parse(string),
+      valueToString: value => JSON.stringify(value)
+    }
+  },
+  initialTruth: 'location'
+});
 
 export default store;

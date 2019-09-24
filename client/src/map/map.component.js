@@ -66,7 +66,7 @@ const Map = (
 
   // const popupRef = useRef(null);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useMapControl(mapInstance, attribution, AttributionControl);
   useMapControl(mapInstance, navigation, NavigationControl, 'bottom-right');
@@ -86,6 +86,19 @@ const Map = (
       return () => clearTimeout(timer);
     },
     [layoutInvalidation]
+  );
+
+  useMapEvent(
+    mapInstance,
+    'move',
+    () => {
+      const viewport = {
+        center: mapInstance.getCenter(),
+        zoom: mapInstance.getZoom()
+      };
+      dispatch(setViewport(viewport));
+    },
+    []
   );
 
   // useMap(

@@ -2,6 +2,8 @@ import { NotificationManager } from 'react-notifications';
 
 import ReactGA from 'react-ga';
 
+export const SET_VIEWPORT = 'SET_VIEWPORT';
+
 export const MAP_STYLE_SELECTED = 'MAP_STYLE_SELECTED';
 
 export const TOGGLE_MULTI_MODE = 'map.TOGGLE_MULTI_MODE';
@@ -90,3 +92,5 @@ export const fetchCustomData = () => async dispatch => {
     });
   }
 };
+
+export const setViewport = viewport => ({ type: SET_VIEWPORT, viewport });

@@ -1,10 +1,12 @@
 import mapboxgl from 'mapbox-gl';
 import { useRef, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const useMapbox = style => {
   const mapContainer = useRef(null);
   const [mapInstance, setMapInstance] = useState(null);
-  const viewport = useRef({ zoom: 6, center: [-4.84, 54.71] });
+  const viewportConfig = useSelector(state => state.map.viewport);
+  const viewport = useRef(viewportConfig);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
