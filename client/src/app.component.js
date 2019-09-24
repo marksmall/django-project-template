@@ -149,13 +149,11 @@ const App = () => {
         </Switch>
       </main>
 
-      {!user && (
-        <footer>
-          <a href="http://www.astrosat.space" target="_blank" rel="noopener noreferrer">
-            Brought to you by Astrosat
-          </a>
-        </footer>
-      )}
+      <footer>
+        <a href="http://www.astrosat.space" target="_blank" rel="noopener noreferrer">
+          Brought to you by Astrosat
+        </a>
+      </footer>
     </div>
   );
 };
