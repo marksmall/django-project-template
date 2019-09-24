@@ -1,8 +1,15 @@
-.map-column {
-  flex-grow: 1;
-  height: 100vh;
+.mapColumn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+  /* flex-grow: 1;
+  height: 100%;
+  width: 100%;
   position: relative;
-  z-index: 1;
+  z-index: 1; */
 }
 
 .layout {
