@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 
-from .base import env
+from .settings.base import env
 
 @api_view(['GET'])
 def app_config_view(request):
