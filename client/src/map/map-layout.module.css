@@ -62,10 +62,14 @@
   background: var(--background-color);
 }
 
-.map :global(.mapboxgl-ctrl-group) > button + button {
+.map :global(.mapboxgl-ctrl-group) > button {
   border-top: 1px solid var(--button-background);
   cursor: pointer;
   color: var(--button-background);
+}
+
+.map :global(.mapboxgl-ctrl-group) :not(:first-child) {
+  border-top: 1px solid var(--button-background);
 }
 
 .map :global(.mapboxgl-ctrl-zoom-in):before {

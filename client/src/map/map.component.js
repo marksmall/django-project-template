@@ -13,6 +13,7 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 // import { setClickedFeature, MULTI_SELECT } from '../factsheet/factsheet.action';
 import { useMapEvent, useMapLayerEvent } from './use-map-event.hook';
+import { setViewport } from './map.actions';
 // import { formatKey } from '../utils/utils';
 // import InfrastructureDetail from './infrastructure-details.component';
 // import { selectedFeatureIds } from '../factsheet/factsheet.selector';
