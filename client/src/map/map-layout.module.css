@@ -63,13 +63,21 @@
 }
 
 .map :global(.mapboxgl-ctrl-group) > button {
-  border-top: 1px solid var(--button-background);
   cursor: pointer;
   color: var(--button-background);
 }
 
 .map :global(.mapboxgl-ctrl-group) :not(:first-child) {
   border-top: 1px solid var(--button-background);
+}
+
+.map :global(.mapbox-gl-draw_line) {
+  background: none;
+}
+.map :global(.mapbox-gl-draw_line):before {
+  fill: red;
+  color: blue;
+  content: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTEzLjUgMy41QTIuNSAyLjUgMCAwIDAgMTEgNmMwIC4zMi4wNDYuNjI0LjE1Ni45MDZsLTMuNzUgMy43NUEyLjQ2OCAyLjQ2OCAwIDAgMCA2LjUgMTAuNSAyLjUgMi41IDAgMSAwIDkgMTNjMC0uMzItLjA0Ni0uNjI0LS4xNTYtLjkwNmwzLjc1LTMuNzVjLjI4Mi4xMS41ODUuMTU2LjkwNi4xNTZhMi41IDIuNSAwIDAgMCAwLTV6Ii8+PC9zdmc+);
 }
 
 .map :global(.mapboxgl-ctrl-zoom-in):before {

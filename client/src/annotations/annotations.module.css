@@ -1,0 +1,10 @@
+.annotations {
+  position: absolute;
+  top: 6rem;
+  left: 2rem;
+  z-index: 5;
+}
+
+.icon {
+  width: 1rem;
+}

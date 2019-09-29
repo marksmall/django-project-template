@@ -5,6 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import store, { history } from './store';
 import App from './app.component';
 import ReactGA from 'react-ga';
+import ReactTooltip from 'react-tooltip';
 
 import './polyfills/flat-map';
 import './polyfills/object-fromEntries';

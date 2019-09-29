@@ -11,9 +11,12 @@ import useMapControl from './use-map-control.hook';
 import layoutStyles from './map-layout.module.css';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+// import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 // import { setClickedFeature, MULTI_SELECT } from '../factsheet/factsheet.action';
 import { useMapEvent, useMapLayerEvent } from './use-map-event.hook';
 import { setViewport } from './map.actions';
+import Annotations from '../annotations/annotations.component';
 // import { formatKey } from '../utils/utils';
 // import InfrastructureDetail from './infrastructure-details.component';
 // import { selectedFeatureIds } from '../factsheet/factsheet.selector';
@@ -42,6 +45,7 @@ const Map = (
     geocoder = true,
     navigation = true,
     scale = true,
+    draw = true,
     layoutInvalidation,
     position
   },
@@ -77,6 +81,14 @@ const Map = (
     reverseGeocode: true,
     mapboxgl
   });
+  // useMapControl(mapInstance, draw, MapboxDraw, 'top-right', {
+  //   displayControlsDefault: false,
+  //   controls: {
+  //     line_string: true,
+  //     polygon: true,
+  //     trash: true
+  //   }
+  // });
 
   useMap(
     mapInstance,
@@ -658,6 +670,7 @@ const Map = (
 
   return (
     <div ref={mapContainer} className={layoutStyles.map} data-testid={`map-${position}`}>
+      <Annotations map={mapInstance} />
       {/* {selectedInfrastructureFeature &&
         ReactDOM.createPortal(
           <div className={layoutStyles.popup}>

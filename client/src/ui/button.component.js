@@ -1,10 +1,23 @@
 import React from 'react';
 import styles from './button.module.css';
 
-const Button = ({ children, onClick, href, disabled = false, active, padded = true, type, className, ariaLabel }) => {
+const Button = ({
+  children,
+  onClick,
+  href,
+  disabled = false,
+  active,
+  padded = true,
+  type = 'button',
+  shape,
+  className,
+  ariaLabel,
+  tooltip,
+  dataFor
+}) => {
   const props = {};
   const classes = [styles.button];
-  if (type) classes.push(styles[type]);
+  if (shape) classes.push(styles[shape]);
   if (className) classes.push(className);
   if (href) {
     props.href = href;
@@ -24,9 +37,9 @@ const Button = ({ children, onClick, href, disabled = false, active, padded = tr
 
   props.className = classes.join(' ');
   return href ? (
-    <a {...props}>{children}</a>
+    <a data-tip data-for={dataFor} {...props}>{children}</a>
   ) : (
-    <button type={type} {...props} disabled={disabled} aria-label={ariaLabel}>
+    <button {...props} disabled={disabled} aria-label={ariaLabel} data-tip data-for={dataFor}>
       {children}
     </button>
   );

@@ -1,0 +1,20 @@
+.panel {
+  position: absolute;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 1rem;
+  background-color: var(--background-color);
+  min-width: 20rem;
+}
+
+.annotation {
+  margin: 0.3rem;
+}
+
+.icon {
+  width: 1rem;
+}
+
+.fieldset {
+  border: solid 1px #fff;
+}

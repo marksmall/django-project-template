@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, lazy, Suspense } from 'react';
 import ReactGA from 'react-ga';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
+import ReactTooltip from 'react-tooltip';
 
 import PrivateRoute from './utils/private-route.component';
 
@@ -75,6 +76,7 @@ const App = () => {
 
   return (
     <div className={`${styles.app} ${styles[selectedTheme.value]}`}>
+      <ReactTooltip />
       <header>
         <nav>
           <ul className={styles.nav}>

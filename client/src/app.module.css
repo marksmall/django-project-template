@@ -1,8 +1,10 @@
 .light {
-  --foreground-color-primary: #3a3b4d;
-  --background-color-primary: #fff;
-  --foreground-color-secondary: #f2f2f2;
-  --background-color-secondary: #f2f2f2;
+  --foreground-color: #3a3b4d;
+  --background-color: #fff;
+  --background-color-alternate: #f2f2f2;
+  --background-active-color: #3a3b4d;
+  --header-background-color: #f2f2f2;
+  --background-color-with-opacity: rgba(255, 255, 255, 0.8);
 
   --button-background: #5795f1;
   --button-background-disabled: var(--button-background);
@@ -37,10 +39,12 @@
 }
 
 .dark {
-  --foreground-color-primary: #fff;
-  --background-color-primary: #3a3b4d;
-  --foreground-color-secondary: #f2f2f2;
-  --background-color-secondary: #424357;
+  --foreground-color: #fff;
+  --background-color: #3a3b4d;
+  --background-color-alternate: #424357;
+  --background-active-color: #e8c786;
+  --header-background-color: #323346;
+  --background-color-with-opacity: rgba(58, 59, 77, 0.8);
 
   --button-background: #e8c786;
   --button-background-disabled: var(--button-background);
@@ -82,8 +86,8 @@
   height: 100vh;
   width: 100vw;
 
-  color: var(--foreground-color-primary);
-  background-color: var(--background-color-primary);
+  color: var(--foreground-color);
+  background-color: var(--background-color);
 }
 
 main {
@@ -93,7 +97,7 @@ main {
   width: 100%;
   height: 100%;
 
-  background-color: var(--background-color-secondary);
+  background-color: var(--background-color);
 }
 
 header {
