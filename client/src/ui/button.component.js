@@ -12,7 +12,6 @@ const Button = ({
   shape,
   className,
   ariaLabel,
-  tooltip,
   dataFor
 }) => {
   const props = {};
@@ -37,9 +36,11 @@ const Button = ({
 
   props.className = classes.join(' ');
   return href ? (
-    <a data-tip data-for={dataFor} {...props}>{children}</a>
+    <a data-tip data-for={dataFor} {...props}>
+      {children}
+    </a>
   ) : (
-    <button {...props} disabled={disabled} aria-label={ariaLabel} data-tip data-for={dataFor}>
+    <button type={type} {...props} disabled={disabled} aria-label={ariaLabel} data-tip data-for={dataFor}>
       {children}
     </button>
   );

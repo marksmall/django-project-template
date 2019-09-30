@@ -83,7 +83,7 @@ export const activateAccount = form => async () => {
 
 export const fetchUser = (username = 'current') => async dispatch => {
   console.log('FETCHING USER: ', username);
-  const response = await fetch(`${API.user}${username}`, { credentials: 'include' });
+  const response = await fetch(`${API.user}${username}/`, { credentials: 'include' });
 
   if (!response.ok) {
     const error = new Error();

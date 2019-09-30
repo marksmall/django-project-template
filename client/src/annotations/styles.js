@@ -4,8 +4,9 @@ export default [
     type: 'fill',
     filter: ['all', ['==', 'active', 'false'], ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
     paint: {
-      'fill-color': '#3bb2d0',
-      'fill-outline-color': '#3bb2d0',
+      'fill-color': 'green',
+      'fill-outline-color': 'yellow',
+      // 'fill-outline-color': '#3bb2d0',
       'fill-opacity': 0.1
     }
   },
@@ -14,8 +15,9 @@ export default [
     type: 'fill',
     filter: ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
     paint: {
-      'fill-color': '#fbb03b',
-      'fill-outline-color': '#fbb03b',
+      'fill-color': 'red',
+      'fill-outline-color': 'blue',
+      // 'fill-outline-color': '#fbb03b',
       'fill-opacity': 0.1
     }
   },
@@ -25,7 +27,8 @@ export default [
     filter: ['all', ['==', '$type', 'Point'], ['==', 'meta', 'midpoint']],
     paint: {
       'circle-radius': 3,
-      'circle-color': '#fbb03b'
+      'circle-color': 'purple'
+      // 'circle-color': '#fbb03b'
     }
   },
   {
@@ -37,7 +40,10 @@ export default [
       'line-join': 'round'
     },
     paint: {
-      'line-color': '#3bb2d0',
+      'line-color': ['get', 'user_lineColour'],
+      // 'line-color': '{user_lineColour}',
+      // 'line-color': '#3bb2d0',
+      // 'line-color': 'blue',
       'line-width': 2
     }
   },
@@ -50,7 +56,8 @@ export default [
       'line-join': 'round'
     },
     paint: {
-      'line-color': '#fbb03b',
+      'line-color': 'grey',
+      // 'line-color': '#fbb03b',
       'line-dasharray': [0.2, 2],
       'line-width': 2
     }
@@ -64,7 +71,9 @@ export default [
       'line-join': 'round'
     },
     paint: {
-      'line-color': '#3bb2d0',
+      // 'line-color': ['get', 'lineColour'],
+      'line-color': 'yellow',
+      // 'line-color': '#3bb2d0',
       'line-width': 2
     }
   },
@@ -77,7 +86,9 @@ export default [
       'line-join': 'round'
     },
     paint: {
-      'line-color': '#fbb03b',
+      // 'line-color': ['get', 'fillColour'],
+      'line-color': 'green',
+      // 'line-color': '#fbb03b',
       'line-dasharray': [0.2, 2],
       'line-width': 2
     }
@@ -85,16 +96,13 @@ export default [
   {
     id: 'gl-draw-line-label',
     type: 'symbol',
-    filter: ['all', ['==', '$type', 'LineString'], ['==', 'meta', 'currentPosition']],
+    filter: ['all', ['==', 'meta', 'currentPosition']],
     // filter: ['all', ['==', '$type', 'LineString'], ['==', 'active', 'true'], ['==', 'meta', 'currentPosition']],
     layout: {
-      'text-field': '{radiusFeet} \n {radiusMiles}',
+      'text-field': '{radiusMetric} \n {radiusStandard}',
       'text-anchor': 'left',
-      'text-offset': [
-        1,
-        0,
-      ],
-      'text-size': 22,
+      'text-offset': [0, 0],
+      'text-size': 16
     },
     paint: {
       'text-color': 'rgba(0, 0, 0, 1)',
@@ -102,19 +110,10 @@ export default [
       'text-halo-width': 3,
       'icon-opacity': {
         base: 1,
-        stops: [
-          [
-            7.99,
-            1,
-          ],
-          [
-            8,
-            0,
-          ],
-        ],
+        stops: [[7.99, 1], [8, 0]]
       },
-      'text-halo-blur': 1,
-    },
+      'text-halo-blur': 1
+    }
   },
   {
     id: 'gl-draw-polygon-and-line-vertex-stroke-inactive',

@@ -26,9 +26,17 @@ import styles from './annotations-panel.module.css';
 
 const AnnotationsPanel = ({ map }) => {
   const [mode, setMode] = useState('simple_select');
-  const [isFillColour, setIsFillColour] = useState(false);
 
-  const [colour, setColour] = useState({ hex: '#fff' });
+  const [isFillColour, setIsFillColour] = useState(false);
+  const [fillColour, setFillColour] = useState({ hex: '#fff' });
+
+  const [isLineColour, setIsLineColour] = useState(false);
+  const [lineColour, setLineColour] = useState({ hex: '#fff' });
+
+  const drawOptions = {
+    fillColour: fillColour.hex,
+    lineColour: lineColour.hex
+  };
 
   // TODO: Remove positioning of control once creating our own button hooks
   // into each control e.g. line_string, polygon etc.
@@ -45,15 +53,18 @@ const AnnotationsPanel = ({ map }) => {
       const drawCtrl = mapInstance._controls.find(ctrl => ctrl.changeMode);
       // console.log('DRAW CTRL STYLE: ', mode, drawCtrl);
       if (drawCtrl) {
-        mapInstance.on('draw.selectionchange', event => {
-          console.log('SELECTION CHANGE: ', event, drawCtrl.getMode());
-        });
+        // mapInstance.on('draw.selectionchange', event => {
+        //   console.log('SELECTION CHANGE: ', event, drawCtrl.getMode());
+        // });
+        // mapInstance.on('draw.create', event => {
+        //   console.log('CREATE EVENT: ', event);
+        // });
         // mapInstance.on('draw.modechange', event => {
         //   console.log('MODE CHANGE: ', event);
         // });
         if (mode !== 'trash' || mode === 'deleteAll') {
           // console.log('CHANGING MODE TO: ', mode);
-          drawCtrl.changeMode(mode);
+          drawCtrl.changeMode(mode, drawOptions);
         } else {
           if (mode === 'deleteAll') {
             // drawCtrl.deleteAll();
@@ -66,7 +77,7 @@ const AnnotationsPanel = ({ map }) => {
         }
       }
     },
-    [mode]
+    [mode, drawOptions]
   );
 
   return (
@@ -109,24 +120,14 @@ const AnnotationsPanel = ({ map }) => {
           <span>Draw Freehand Polygon</span>
         </ReactTooltip>
 
-        <Button
-          className={styles.annotation}
-          shape="round"
-          onClick={() => setMode('RotateMode')}
-          dataFor="rotate"
-        >
+        <Button className={styles.annotation} shape="round" onClick={() => setMode('RotateMode')} dataFor="rotate">
           <RotateIcon className={styles.icon} />
         </Button>
         <ReactTooltip id="rotate">
           <span>Rotate Shape</span>
         </ReactTooltip>
 
-        <Button
-          className={styles.annotation}
-          shape="round"
-          onClick={() => setMode('RadiusMode')}
-          dataFor="radius"
-        >
+        <Button className={styles.annotation} shape="round" onClick={() => setMode('RadiusMode')} dataFor="radius">
           <RadiusIcon className={styles.icon} />
         </Button>
         <ReactTooltip id="radius">
@@ -163,12 +164,7 @@ const AnnotationsPanel = ({ map }) => {
 
       <fieldset className={styles.fieldset}>
         <legend>Configure Shapes</legend>
-        <Button
-          className={styles.annotation}
-          shape="round"
-          onClick={() => console.log('Change Font')}
-          dataFor="font"
-        >
+        <Button className={styles.annotation} shape="round" onClick={() => console.log('Change Font')} dataFor="font">
           <FontIcon className={styles.icon} />
         </Button>
         <ReactTooltip id="font">
@@ -182,26 +178,28 @@ const AnnotationsPanel = ({ map }) => {
             onClick={() => setIsFillColour(!isFillColour)}
             dataFor="fillColour"
           >
-            <span style={{ width: 20, height: 20, backgroundColor: colour.hex }}></span>
+            <span style={{ width: 20, height: 20, backgroundColor: fillColour.hex }}></span>
           </Button>
           <ReactTooltip id="fillColour">
             <span>Set Fill Colour</span>
           </ReactTooltip>
 
-          {isFillColour && <ColorPicker colour={colour} setColour={c => setColour(c)} />}
+          {isFillColour && <ColorPicker colour={fillColour} setColour={c => setFillColour(c)} />}
         </div>
 
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => console.log('Set Line Colour')}
+          onClick={() => setIsLineColour(!isLineColour)}
           dataFor="lineColour"
         >
-          <DeleteIcon className={styles.icon} />
+          <span style={{ width: 20, height: 20, backgroundColor: lineColour.hex }}></span>
         </Button>
         <ReactTooltip id="lineColour">
           <span>Set Line Colour</span>
         </ReactTooltip>
+
+        {isLineColour && <ColorPicker colour={lineColour} setColour={c => setLineColour(c)} />}
 
         <Button
           className={styles.annotation}
