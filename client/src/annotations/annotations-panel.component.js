@@ -19,11 +19,64 @@ import { ReactComponent as RotateIcon } from './rotate.svg';
 import { ReactComponent as FreehandIcon } from './freehand.svg';
 import { ReactComponent as RadiusIcon } from './radius.svg';
 
-import FreehandMode from 'mapbox-gl-draw-freehand-mode';
+import lineWidth1PixelIcon from './1px-line-width.svg';
+import lineWidth2PixelIcon from './2px-line-width.svg';
+import lineWidth3PixelIcon from './3px-line-width.svg';
+
+import lineTypeSolidIcon from './line-type-solid.svg';
+import lineTypeDashedIcon from './line-type-dashed.svg';
+import lineTypeDottedIcon from './line-type-dotted.svg';
+
 import RotateMode from 'mapbox-gl-draw-rotate-mode';
 import RadiusMode from './modes/radius';
+import LineMode from './modes/line';
+import PolygonMode from './modes/polygon';
+import FreehandPolygonMode from './modes/freehand-polygon';
+import CircleMode from './modes/circle';
 
 import styles from './annotations-panel.module.css';
+
+const lineWidthOptions = [
+  {
+    id: 'lineWidth1',
+    icon: lineWidth1PixelIcon,
+    value: 1,
+    tooltip: 'Set Line Width to 1px'
+  },
+  {
+    id: 'lineWidth2',
+    icon: lineWidth2PixelIcon,
+    value: 5,
+    tooltip: 'Set Line Width to 2px'
+  },
+  {
+    id: 'lineWidth3',
+    icon: lineWidth3PixelIcon,
+    value: 10,
+    tooltip: 'Set Line Width to 3px'
+  }
+];
+
+const lineTypeOptions = [
+  {
+    id: 'lineType1',
+    icon: lineTypeSolidIcon,
+    value: [1, 0],
+    tooltip: 'Set Line Type to Solid'
+  },
+  {
+    id: 'lineType2',
+    icon: lineTypeDashedIcon,
+    value: [2, 1],
+    tooltip: 'Set Line Type to Dashed'
+  },
+  {
+    id: 'lineType3',
+    icon: lineTypeDottedIcon,
+    value: [1, 1],
+    tooltip: 'Set Line Type to Dotted'
+  }
+];
 
 const initialState = {
   lineColourSelected: false,
@@ -32,9 +85,9 @@ const initialState = {
   fillColour: { hex: '#fff' },
   mode: 'simple_select',
   lineWidthSelected: false,
-  lineWidth: 1,
+  lineWidthOption: lineWidthOptions[0],
   lineTypeSelected: false,
-  lineType: { hex: '#fff' }
+  lineTypeOption: lineTypeOptions[0]
 };
 
 const SET_FILL_COLOUR_SELECTED = 'SET_FILL_COLOUR_SELECTED';
@@ -65,12 +118,12 @@ const reducer = (state, action) => {
     case SET_LINE_WIDTH_SELECTED:
       return { ...state, lineWidthSelected: !state.lineWidthSelected };
     case SET_LINE_WIDTH:
-      return { ...state, lineWidth: action.width };
+      return { ...state, lineWidthOption: action.option };
 
     case SET_LINE_TYPE_SELECTED:
       return { ...state, lineTypeSelected: !state.lineTypeSelected };
     case SET_LINE_TYPE:
-      return { ...state, lineType: action.type };
+      return { ...state, lineTypeOption: action.option };
 
     default:
       throw new Error('Unknown Action Type: ', action.type);
@@ -86,14 +139,16 @@ const AnnotationsPanel = ({ map }) => {
     fillColour,
     mode,
     lineWidthSelected,
-    lineWidth,
+    lineWidthOption,
     lineTypeSelected,
-    lineType
+    lineTypeOption
   } = state;
 
   const drawOptions = {
     fillColour: fillColour.hex,
-    lineColour: lineColour.hex
+    lineColour: lineColour.hex,
+    lineWidth: lineWidthOption.value,
+    lineType: lineTypeOption.value
   };
 
   // TODO: Remove positioning of control once creating our own button hooks
@@ -102,7 +157,7 @@ const AnnotationsPanel = ({ map }) => {
     displayControlsDefault: false,
     userProperties: true,
     styles: drawStyles,
-    modes: { ...MapboxDraw.modes, FreehandMode, RotateMode, RadiusMode }
+    modes: { ...MapboxDraw.modes, RotateMode, RadiusMode, LineMode, PolygonMode, FreehandPolygonMode, CircleMode }
   });
 
   useMap(
@@ -145,7 +200,8 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'draw_line_string' })}
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'LineMode' })}
+          // onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'draw_line_string' })}
           dataFor="drawLineString"
         >
           <LineStringIcon className={styles.icon} />
@@ -157,7 +213,8 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'draw_polygon' })}
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'PolygonMode' })}
+          // onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'draw_polygon' })}
           dataFor="drawPolygon"
         >
           <PolygonIcon className={styles.icon} />
@@ -169,7 +226,7 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'FreehandMode' })}
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'FreehandPolygonMode' })}
           dataFor="drawFreehandPolygon"
         >
           <FreehandIcon className={styles.icon} />
@@ -188,6 +245,18 @@ const AnnotationsPanel = ({ map }) => {
         </Button>
         <ReactTooltip id="rotate">
           <span>Rotate Shape</span>
+        </ReactTooltip>
+
+        <Button
+          className={styles.annotation}
+          shape="round"
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'CircleMode' })}
+          dataFor="drawCircle"
+        >
+          <PolygonIcon className={styles.icon} />
+        </Button>
+        <ReactTooltip id="drawCircle">
+          <span>Draw Circle</span>
         </ReactTooltip>
 
         <Button
@@ -279,13 +348,16 @@ const AnnotationsPanel = ({ map }) => {
           onClick={() => dispatch({ type: SET_LINE_TYPE_SELECTED })}
           dataFor="lineType"
         >
-          <DeleteIcon className={styles.icon} />
+          <img className={styles.icon} src={lineTypeOption.icon} alt={lineTypeOption.tooltip} />
+          {/* <LineTypeIcon className={styles.icon} /> */}
         </Button>
         <ReactTooltip id="lineType">
           <span>Set Line Type</span>
         </ReactTooltip>
 
-        {lineTypeSelected && <LineWidthPicker setLineType={lineType => dispatch({ type: SET_LINE_TYPE, lineType })} />}
+        {lineTypeSelected && (
+          <LineWidthPicker options={lineTypeOptions} select={option => dispatch({ type: SET_LINE_TYPE, option })} />
+        )}
 
         <Button
           className={styles.annotation}
@@ -293,16 +365,16 @@ const AnnotationsPanel = ({ map }) => {
           onClick={() => dispatch({ type: SET_LINE_WIDTH_SELECTED })}
           dataFor="lineWidth"
         >
-          <span
-            className={styles[`lineWidth${lineWidth}`]}
-            style={{ width: 20, height: lineWidth, backgroundColor: '#000' }}
-          ></span>
+          <img className={styles.icon} src={lineWidthOption.icon} alt={lineWidthOption.tooltip} />
+          {/* <LineWidthIcon className={styles.icon} /> */}
         </Button>
         <ReactTooltip id="lineWidth">
           <span>Set Line Width</span>
         </ReactTooltip>
 
-        {lineWidthSelected && <LineWidthPicker setLineWidth={width => dispatch({ type: SET_LINE_WIDTH, width })} />}
+        {lineWidthSelected && (
+          <LineWidthPicker options={lineWidthOptions} select={option => dispatch({ type: SET_LINE_WIDTH, option })} />
+        )}
       </fieldset>
     </div>
   );
