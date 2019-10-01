@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 
 import useMap from '../map/use-map.hook';
 import useMapControl from '../map/use-map-control.hook';
@@ -6,6 +6,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
 
 import Button from '../ui/button.component';
 import ColorPicker from './color-picker.component';
+import LineWidthPicker from './line-width.component';
 import ReactTooltip from 'react-tooltip';
 
 import drawStyles from './styles';
@@ -24,14 +25,71 @@ import RadiusMode from './modes/radius';
 
 import styles from './annotations-panel.module.css';
 
+const initialState = {
+  lineColourSelected: false,
+  lineColour: { hex: '#fff' },
+  fillColourSelected: false,
+  fillColour: { hex: '#fff' },
+  mode: 'simple_select',
+  lineWidthSelected: false,
+  lineWidth: 1,
+  lineTypeSelected: false,
+  lineType: { hex: '#fff' }
+};
+
+const SET_FILL_COLOUR_SELECTED = 'SET_FILL_COLOUR_SELECTED';
+const SET_FILL_COLOUR = 'SET_FILL_COLOUR';
+const SET_LINE_COLOUR_SELECTED = 'SET_LINE_COLOUR_SELECTED';
+const SET_LINE_COLOUR = 'SET_LINE_COLOUR';
+const SET_DRAW_MODE = 'SET_DRAW_MODE';
+const SET_LINE_WIDTH_SELECTED = 'SET_LINE_WIDTH_SELECTED';
+const SET_LINE_WIDTH = 'SET_LINE_WIDTH';
+const SET_LINE_TYPE_SELECTED = 'SET_LINE_TYPE_SELECTED';
+const SET_LINE_TYPE = 'SET_LINE_TYPE';
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case SET_LINE_COLOUR_SELECTED:
+      return { ...state, lineColourSelected: !state.lineColourSelected };
+    case SET_LINE_COLOUR:
+      return { ...state, lineColour: action.colour };
+
+    case SET_FILL_COLOUR_SELECTED:
+      return { ...state, fillColourSelected: !state.fillColourSelected };
+    case SET_FILL_COLOUR:
+      return { ...state, fillColour: action.colour };
+
+    case SET_DRAW_MODE:
+      return { ...state, mode: action.mode };
+
+    case SET_LINE_WIDTH_SELECTED:
+      return { ...state, lineWidthSelected: !state.lineWidthSelected };
+    case SET_LINE_WIDTH:
+      return { ...state, lineWidth: action.width };
+
+    case SET_LINE_TYPE_SELECTED:
+      return { ...state, lineTypeSelected: !state.lineTypeSelected };
+    case SET_LINE_TYPE:
+      return { ...state, lineType: action.type };
+
+    default:
+      throw new Error('Unknown Action Type: ', action.type);
+  }
+};
+
 const AnnotationsPanel = ({ map }) => {
-  const [mode, setMode] = useState('simple_select');
-
-  const [isFillColour, setIsFillColour] = useState(false);
-  const [fillColour, setFillColour] = useState({ hex: '#fff' });
-
-  const [isLineColour, setIsLineColour] = useState(false);
-  const [lineColour, setLineColour] = useState({ hex: '#fff' });
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {
+    lineColourSelected,
+    lineColour,
+    fillColourSelected,
+    fillColour,
+    mode,
+    lineWidthSelected,
+    lineWidth,
+    lineTypeSelected,
+    lineType
+  } = state;
 
   const drawOptions = {
     fillColour: fillColour.hex,
@@ -87,7 +145,7 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => setMode('draw_line_string')}
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'draw_line_string' })}
           dataFor="drawLineString"
         >
           <LineStringIcon className={styles.icon} />
@@ -99,7 +157,7 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => setMode('draw_polygon')}
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'draw_polygon' })}
           dataFor="drawPolygon"
         >
           <PolygonIcon className={styles.icon} />
@@ -111,7 +169,7 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => setMode('FreehandMode')}
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'FreehandMode' })}
           dataFor="drawFreehandPolygon"
         >
           <FreehandIcon className={styles.icon} />
@@ -120,14 +178,24 @@ const AnnotationsPanel = ({ map }) => {
           <span>Draw Freehand Polygon</span>
         </ReactTooltip>
 
-        <Button className={styles.annotation} shape="round" onClick={() => setMode('RotateMode')} dataFor="rotate">
+        <Button
+          className={styles.annotation}
+          shape="round"
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'RotateMode' })}
+          dataFor="rotate"
+        >
           <RotateIcon className={styles.icon} />
         </Button>
         <ReactTooltip id="rotate">
           <span>Rotate Shape</span>
         </ReactTooltip>
 
-        <Button className={styles.annotation} shape="round" onClick={() => setMode('RadiusMode')} dataFor="radius">
+        <Button
+          className={styles.annotation}
+          shape="round"
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'RadiusMode' })}
+          dataFor="radius"
+        >
           <RadiusIcon className={styles.icon} />
         </Button>
         <ReactTooltip id="radius">
@@ -140,7 +208,7 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => setMode('trash')}
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'trash' })}
           dataFor="deleteAnnotations"
         >
           <DeleteIcon className={styles.icon} />
@@ -152,7 +220,7 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => setMode('deleteAll')}
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'deleteAll' })}
           dataFor="deleteAllAnnotations"
         >
           <DeleteIcon className={styles.icon} />
@@ -175,7 +243,7 @@ const AnnotationsPanel = ({ map }) => {
           <Button
             className={styles.annotation}
             shape="round"
-            onClick={() => setIsFillColour(!isFillColour)}
+            onClick={() => dispatch({ type: SET_FILL_COLOUR_SELECTED })}
             dataFor="fillColour"
           >
             <span style={{ width: 20, height: 20, backgroundColor: fillColour.hex }}></span>
@@ -184,13 +252,15 @@ const AnnotationsPanel = ({ map }) => {
             <span>Set Fill Colour</span>
           </ReactTooltip>
 
-          {isFillColour && <ColorPicker colour={fillColour} setColour={c => setFillColour(c)} />}
+          {fillColourSelected && (
+            <ColorPicker colour={fillColour} setColour={colour => dispatch({ type: SET_FILL_COLOUR, colour })} />
+          )}
         </div>
 
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => setIsLineColour(!isLineColour)}
+          onClick={() => dispatch({ type: SET_LINE_COLOUR_SELECTED })}
           dataFor="lineColour"
         >
           <span style={{ width: 20, height: 20, backgroundColor: lineColour.hex }}></span>
@@ -199,12 +269,14 @@ const AnnotationsPanel = ({ map }) => {
           <span>Set Line Colour</span>
         </ReactTooltip>
 
-        {isLineColour && <ColorPicker colour={lineColour} setColour={c => setLineColour(c)} />}
+        {lineColourSelected && (
+          <ColorPicker colour={lineColour} setColour={colour => dispatch({ type: SET_LINE_COLOUR, colour })} />
+        )}
 
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => console.log('Set Line Type')}
+          onClick={() => dispatch({ type: SET_LINE_TYPE_SELECTED })}
           dataFor="lineType"
         >
           <DeleteIcon className={styles.icon} />
@@ -213,17 +285,24 @@ const AnnotationsPanel = ({ map }) => {
           <span>Set Line Type</span>
         </ReactTooltip>
 
+        {lineTypeSelected && <LineWidthPicker setLineType={lineType => dispatch({ type: SET_LINE_TYPE, lineType })} />}
+
         <Button
           className={styles.annotation}
           shape="round"
-          onClick={() => console.log('Set Line Thickness')}
-          dataFor="lineThickness"
+          onClick={() => dispatch({ type: SET_LINE_WIDTH_SELECTED })}
+          dataFor="lineWidth"
         >
-          <DeleteIcon className={styles.icon} />
+          <span
+            className={styles[`lineWidth${lineWidth}`]}
+            style={{ width: 20, height: lineWidth, backgroundColor: '#000' }}
+          ></span>
         </Button>
-        <ReactTooltip id="lineThickness">
-          <span>Set Line Thickness</span>
+        <ReactTooltip id="lineWidth">
+          <span>Set Line Width</span>
         </ReactTooltip>
+
+        {lineWidthSelected && <LineWidthPicker setLineWidth={width => dispatch({ type: SET_LINE_WIDTH, width })} />}
       </fieldset>
     </div>
   );
