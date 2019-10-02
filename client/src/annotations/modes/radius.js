@@ -118,7 +118,6 @@ const doubleClickZoom = {
     }, 0);
   }
 };
-
 RadiusMode.onSetup = function(opts) {
   const props = MapboxDraw.modes.draw_line_string.onSetup.call(this, opts);
   props.properties = {

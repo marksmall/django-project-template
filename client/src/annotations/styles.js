@@ -4,10 +4,9 @@ export default [
     type: 'fill',
     filter: ['all', ['==', 'active', 'false'], ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
     paint: {
-      'fill-color': ['get', 'user_fillColour'],
-      // 'fill-color': 'blue',
-      // 'fill-outline-color': 'yellow',
-      'fill-outline-color': '#3bb2d0',
+      'fill-color': 'green',
+      'fill-outline-color': 'yellow',
+      // 'fill-outline-color': '#3bb2d0',
       'fill-opacity': 0.1
     }
   },
@@ -16,8 +15,9 @@ export default [
     type: 'fill',
     filter: ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
     paint: {
-      'fill-color': '#fbb03b',
-      'fill-outline-color': '#fbb03b',
+      'fill-color': 'red',
+      'fill-outline-color': 'blue',
+      // 'fill-outline-color': '#fbb03b',
       'fill-opacity': 0.1
     }
   },
@@ -41,8 +41,10 @@ export default [
     },
     paint: {
       'line-color': ['get', 'user_lineColour'],
-      // 'line-dasharray': ['get', 'user_lineType'],
-      'line-width': ['get', 'user_lineWidth']
+      // 'line-color': '{user_lineColour}',
+      // 'line-color': '#3bb2d0',
+      // 'line-color': 'blue',
+      'line-width': 2
     }
   },
   {
@@ -69,8 +71,8 @@ export default [
       'line-join': 'round'
     },
     paint: {
-      'line-color': ['get', 'user_lineColour'],
-      // 'line-color': 'yellow',
+      // 'line-color': ['get', 'lineColour'],
+      'line-color': 'yellow',
       // 'line-color': '#3bb2d0',
       'line-width': 2
     }
@@ -85,8 +87,8 @@ export default [
     },
     paint: {
       // 'line-color': ['get', 'fillColour'],
-      // 'line-color': 'green',
-      'line-color': '#fbb03b',
+      'line-color': 'green',
+      // 'line-color': '#fbb03b',
       'line-dasharray': [0.2, 2],
       'line-width': 2
     }
