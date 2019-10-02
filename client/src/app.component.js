@@ -142,7 +142,7 @@ const App = () => {
           <PrivateRoute exact path="/protected" user={user} component={Protected} />
           <PrivateRoute exact path="/password/change" user={user} component={PasswordChangeContainer} />
           <PrivateRoute exact path="/user/update" user={user} component={UpdateUserContainer} />
-          <PrivateRoute exact path="/map" user={user} component={MapLayout} />
+          <PrivateRoute path="/map" user={user} component={MapLayout} />
           <Suspense fallback={<h3>Admin Loading...</h3>}>
             <PrivateRoute exact path="/admin" user={user} component={Admin} />
             <PrivateRoute exact path="/users" user={user} component={UserList} />

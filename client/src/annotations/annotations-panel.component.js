@@ -1,8 +1,12 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 
 import useMap from '../map/use-map.hook';
 import useMapControl from '../map/use-map-control.hook';
 import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
+
+// import Slider from 'rc-slider'
+import Slider from 'rc-slider/lib/Slider';
+import 'rc-slider/assets/index.css';
 
 import Button from '../ui/button.component';
 import ColorPicker from './color-picker.component';
@@ -35,6 +39,10 @@ import FreehandPolygonMode from './modes/freehand-polygon';
 import CircleMode from './modes/circle';
 
 import styles from './annotations-panel.module.css';
+import '../index.css';
+
+const primaryColor = '#5796e2';
+const secondaryColor = '#e2e2e2';
 
 const lineWidthOptions = [
   {
@@ -59,19 +67,19 @@ const lineWidthOptions = [
 
 const lineTypeOptions = [
   {
-    id: 'lineType1',
+    id: 'solid',
     icon: lineTypeSolidIcon,
-    value: [1, 0],
+    value: false,
     tooltip: 'Set Line Type to Solid'
   },
   {
-    id: 'lineType2',
+    id: 'dashed',
     icon: lineTypeDashedIcon,
     value: [2, 1],
     tooltip: 'Set Line Type to Dashed'
   },
   {
-    id: 'lineType3',
+    id: 'dotted',
     icon: lineTypeDottedIcon,
     value: [1, 1],
     tooltip: 'Set Line Type to Dotted'
@@ -87,11 +95,13 @@ const initialState = {
   lineWidthSelected: false,
   lineWidthOption: lineWidthOptions[0],
   lineTypeSelected: false,
-  lineTypeOption: lineTypeOptions[0]
+  lineTypeOption: lineTypeOptions[0],
+  fillOpacity: 0.5
 };
 
 const SET_FILL_COLOUR_SELECTED = 'SET_FILL_COLOUR_SELECTED';
 const SET_FILL_COLOUR = 'SET_FILL_COLOUR';
+const SET_FILL_OPACITY = 'SET_FILL_OPACITY';
 const SET_LINE_COLOUR_SELECTED = 'SET_LINE_COLOUR_SELECTED';
 const SET_LINE_COLOUR = 'SET_LINE_COLOUR';
 const SET_DRAW_MODE = 'SET_DRAW_MODE';
@@ -111,6 +121,9 @@ const reducer = (state, action) => {
       return { ...state, fillColourSelected: !state.fillColourSelected };
     case SET_FILL_COLOUR:
       return { ...state, fillColour: action.colour };
+
+    case SET_FILL_OPACITY:
+      return { ...state, fillOpacity: action.opacity };
 
     case SET_DRAW_MODE:
       return { ...state, mode: action.mode };
@@ -137,6 +150,7 @@ const AnnotationsPanel = ({ map }) => {
     lineColour,
     fillColourSelected,
     fillColour,
+    fillOpacity,
     mode,
     lineWidthSelected,
     lineWidthOption,
@@ -148,7 +162,9 @@ const AnnotationsPanel = ({ map }) => {
     fillColour: fillColour.hex,
     lineColour: lineColour.hex,
     lineWidth: lineWidthOption.value,
-    lineType: lineTypeOption.value
+    lineTypeName: lineTypeOption.id,
+    lineType: lineTypeOption.value,
+    fillOpacity
   };
 
   // TODO: Remove positioning of control once creating our own button hooks
@@ -169,22 +185,18 @@ const AnnotationsPanel = ({ map }) => {
         // mapInstance.on('draw.selectionchange', event => {
         //   console.log('SELECTION CHANGE: ', event, drawCtrl.getMode());
         // });
-        // mapInstance.on('draw.create', event => {
-        //   console.log('CREATE EVENT: ', event);
-        // });
+        mapInstance.on('draw.create', event => {
+          console.log('CREATE EVENT: ', event);
+        });
         // mapInstance.on('draw.modechange', event => {
         //   console.log('MODE CHANGE: ', event);
         // });
-        if (mode !== 'trash' || mode === 'deleteAll') {
-          // console.log('CHANGING MODE TO: ', mode);
+        if (mode !== 'trash' && mode !== 'deleteAll') {
           drawCtrl.changeMode(mode, drawOptions);
         } else {
           if (mode === 'deleteAll') {
-            // drawCtrl.deleteAll();
+            drawCtrl.deleteAll();
           } else {
-            // console.log('TRASHING: ', drawCtrl.getMode());
-            // drawCtrl.changeMode('simple_select');
-            // console.log('CURRENT MODE: ', drawCtrl.getMode());
             drawCtrl.trash();
           }
         }
@@ -349,7 +361,6 @@ const AnnotationsPanel = ({ map }) => {
           dataFor="lineType"
         >
           <img className={styles.icon} src={lineTypeOption.icon} alt={lineTypeOption.tooltip} />
-          {/* <LineTypeIcon className={styles.icon} /> */}
         </Button>
         <ReactTooltip id="lineType">
           <span>Set Line Type</span>
@@ -366,7 +377,6 @@ const AnnotationsPanel = ({ map }) => {
           dataFor="lineWidth"
         >
           <img className={styles.icon} src={lineWidthOption.icon} alt={lineWidthOption.tooltip} />
-          {/* <LineWidthIcon className={styles.icon} /> */}
         </Button>
         <ReactTooltip id="lineWidth">
           <span>Set Line Width</span>
@@ -375,6 +385,30 @@ const AnnotationsPanel = ({ map }) => {
         {lineWidthSelected && (
           <LineWidthPicker options={lineWidthOptions} select={option => dispatch({ type: SET_LINE_WIDTH, option })} />
         )}
+
+        <Slider
+          dots
+          step={0.1}
+          min={0}
+          max={1}
+          defaultValue={0.5}
+          // handle={handle}
+          trackStyle={{ backgroundColor: primaryColor }}
+          railStyle={{ backgroundColor: secondaryColor }}
+          handleStyle={{
+            backgroundColor: secondaryColor,
+            borderColor: primaryColor
+          }}
+          dotStyle={{
+            backgroundColor: secondaryColor,
+            borderColor: secondaryColor
+          }}
+          activeDotStyle={{
+            backgroundColor: primaryColor,
+            borderColor: primaryColor
+          }}
+          onChange={opacity => dispatch({ type: SET_FILL_OPACITY, opacity })}
+        />
       </fieldset>
     </div>
   );

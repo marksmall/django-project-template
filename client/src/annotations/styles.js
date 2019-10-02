@@ -8,7 +8,8 @@ export default [
       // 'fill-color': 'blue',
       // 'fill-outline-color': 'yellow',
       'fill-outline-color': '#3bb2d0',
-      'fill-opacity': 0.1
+      'fill-opacity': ['get', 'user_fillOpacity']
+      // 'fill-opacity': 0.1
     }
   },
   {
@@ -18,7 +19,8 @@ export default [
     paint: {
       'fill-color': '#fbb03b',
       'fill-outline-color': '#fbb03b',
-      'fill-opacity': 0.1
+      'fill-opacity': ['get', 'user_fillOpacity']
+      // 'fill-opacity': 0.1
     }
   },
   {
@@ -32,16 +34,61 @@ export default [
     }
   },
   {
-    id: 'gl-draw-polygon-stroke-inactive',
+    id: 'gl-draw-solid-polygon-stroke-inactive',
     type: 'line',
-    filter: ['all', ['==', 'active', 'false'], ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
+    filter: [
+      'all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'Polygon'],
+      ['!=', 'mode', 'static'],
+      ['==', 'user_lineTypeName', 'solid']
+    ],
     layout: {
       'line-cap': 'round',
       'line-join': 'round'
     },
     paint: {
       'line-color': ['get', 'user_lineColour'],
-      // 'line-dasharray': ['get', 'user_lineType'],
+      'line-width': ['get', 'user_lineWidth']
+    }
+  },
+  {
+    id: 'gl-draw-dashed-polygon-stroke-inactive',
+    type: 'line',
+    filter: [
+      'all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'Polygon'],
+      ['!=', 'mode', 'static'],
+      ['==', 'user_lineTypeName', 'dashed']
+    ],
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-color': ['get', 'user_lineColour'],
+      'line-dasharray': [2, 2],
+      'line-width': ['get', 'user_lineWidth']
+    }
+  },
+  {
+    id: 'gl-draw-dotted-polygon-stroke-inactive',
+    type: 'line',
+    filter: [
+      'all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'Polygon'],
+      ['!=', 'mode', 'static'],
+      ['==', 'user_lineTypeName', 'dotted']
+    ],
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-color': ['get', 'user_lineColour'],
+      'line-dasharray': [0.2, 2],
       'line-width': ['get', 'user_lineWidth']
     }
   },
@@ -57,22 +104,67 @@ export default [
       'line-color': 'grey',
       // 'line-color': '#fbb03b',
       'line-dasharray': [0.2, 2],
-      'line-width': 2
+      // 'line-width': 2
+      'line-width': ['get', 'user_lineWidth']
     }
   },
   {
-    id: 'gl-draw-line-inactive',
+    id: 'gl-draw-solid-line-inactive',
     type: 'line',
-    filter: ['all', ['==', 'active', 'false'], ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
+    filter: [
+      'all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'LineString'],
+      ['!=', 'mode', 'static'],
+      ['==', 'user_lineTypeName', 'solid']
+    ],
     layout: {
       'line-cap': 'round',
       'line-join': 'round'
     },
     paint: {
       'line-color': ['get', 'user_lineColour'],
-      // 'line-color': 'yellow',
-      // 'line-color': '#3bb2d0',
-      'line-width': 2
+      'line-width': ['get', 'user_lineWidth']
+    }
+  },
+  {
+    id: 'gl-draw-dashed-line-inactive',
+    type: 'line',
+    filter: [
+      'all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'LineString'],
+      ['!=', 'mode', 'static'],
+      ['==', 'user_lineTypeName', 'dashed']
+    ],
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-color': ['get', 'user_lineColour'],
+      'line-dasharray': [2, 2],
+      'line-width': ['get', 'user_lineWidth']
+    }
+  },
+  {
+    id: 'gl-draw-dotted-line-inactive',
+    type: 'line',
+    filter: [
+      'all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'LineString'],
+      ['!=', 'mode', 'static'],
+      ['==', 'user_lineTypeName', 'dotted']
+    ],
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-color': ['get', 'user_lineColour'],
+      'line-dasharray': [0.2, 2],
+      'line-width': ['get', 'user_lineWidth']
     }
   },
   {
@@ -88,13 +180,14 @@ export default [
       // 'line-color': 'green',
       'line-color': '#fbb03b',
       'line-dasharray': [0.2, 2],
-      'line-width': 2
+      // 'line-width': 2
+      'line-width': ['get', 'user_lineWidth']
     }
   },
   {
     id: 'gl-draw-line-label',
     type: 'symbol',
-    filter: ['all', ['==', 'meta', 'currentPosition']],
+    filter: ['all', ['==', '$type', 'Point'], ['has', 'radiusMetric']],
     // filter: ['all', ['==', '$type', 'LineString'], ['==', 'active', 'true'], ['==', 'meta', 'currentPosition']],
     layout: {
       'text-field': '{radiusMetric} \n {radiusStandard}',
@@ -106,10 +199,10 @@ export default [
       'text-color': 'rgba(0, 0, 0, 1)',
       'text-halo-color': 'rgba(255, 255, 255, 1)',
       'text-halo-width': 3,
-      'icon-opacity': {
-        base: 1,
-        stops: [[7.99, 1], [8, 0]]
-      },
+      // 'icon-opacity': {
+      //   base: 1,
+      //   stops: [[7.99, 1], [8, 0]]
+      // },
       'text-halo-blur': 1
     }
   },
@@ -189,40 +282,40 @@ export default [
       'fill-outline-color': '#404040',
       'fill-opacity': 0.1
     }
-  },
-  {
-    id: 'gl-draw-polygon-stroke-static',
-    type: 'line',
-    filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-color': '#404040',
-      'line-width': 2
-    }
-  },
-  {
-    id: 'gl-draw-line-static',
-    type: 'line',
-    filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'LineString']],
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-color': '#404040',
-      'line-width': 2
-    }
-  },
-  {
-    id: 'gl-draw-point-static',
-    type: 'circle',
-    filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Point']],
-    paint: {
-      'circle-radius': 5,
-      'circle-color': '#404040'
-    }
+    // },
+    // {
+    //   id: 'gl-draw-polygon-stroke-static',
+    //   type: 'line',
+    //   filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
+    //   layout: {
+    //     'line-cap': 'round',
+    //     'line-join': 'round'
+    //   },
+    //   paint: {
+    //     'line-color': '#404040',
+    //     'line-width': 2
+    //   }
+    // },
+    // {
+    //   id: 'gl-draw-line-static',
+    //   type: 'line',
+    //   filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'LineString']],
+    //   layout: {
+    //     'line-cap': 'round',
+    //     'line-join': 'round'
+    //   },
+    //   paint: {
+    //     'line-color': '#404040',
+    //     'line-width': 2
+    //   }
+    // },
+    // {
+    //   id: 'gl-draw-point-static',
+    //   type: 'circle',
+    //   filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Point']],
+    //   paint: {
+    //     'circle-radius': 5,
+    //     'circle-color': '#404040'
+    //   }
   }
 ];
