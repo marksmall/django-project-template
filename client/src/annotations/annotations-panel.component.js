@@ -10,7 +10,7 @@ import 'rc-slider/assets/index.css';
 
 import Button from '../ui/button.component';
 import ColorPicker from './color-picker.component';
-import LineWidthPicker from './line-width.component';
+import DropDownButton from './drop-down-button.component';
 import ReactTooltip from 'react-tooltip';
 import TextDialog from './text-dialog.component';
 
@@ -398,7 +398,7 @@ const AnnotationsPanel = ({ map }) => {
         </ReactTooltip>
 
         {lineTypeSelected && (
-          <LineWidthPicker options={lineTypeOptions} select={option => dispatch({ type: SET_LINE_TYPE, option })} />
+          <DropDownButton options={lineTypeOptions} select={option => dispatch({ type: SET_LINE_TYPE, option })} />
         )}
 
         <Button
@@ -414,7 +414,7 @@ const AnnotationsPanel = ({ map }) => {
         </ReactTooltip>
 
         {lineWidthSelected && (
-          <LineWidthPicker options={lineWidthOptions} select={option => dispatch({ type: SET_LINE_WIDTH, option })} />
+          <DropDownButton options={lineWidthOptions} select={option => dispatch({ type: SET_LINE_WIDTH, option })} />
         )}
 
         <Slider

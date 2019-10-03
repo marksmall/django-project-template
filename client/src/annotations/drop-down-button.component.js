@@ -4,7 +4,7 @@ import ReactTooltip from 'react-tooltip';
 
 import Button from '../ui/button.component';
 
-import styles from './line-width.module.css';
+import styles from './drop-down-button.module.css';
 
 const LineWidth = ({ options, select }) => (
   <div className={styles.lineWidthContainer}>
