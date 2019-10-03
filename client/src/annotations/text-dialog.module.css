@@ -1,0 +1,13 @@
+.text-dialog {
+  /* position: fixed;
+  top: 2.8rem;
+  display: flex;
+  flex-direction: column;
+  width: 61rem;
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+  border-radius: 1rem;
+  z-index: 499;
+  max-height: calc(100vh - 5.6rem);
+  box-sizing: border-box; */
+}

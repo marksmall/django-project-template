@@ -12,6 +12,7 @@ import Button from '../ui/button.component';
 import ColorPicker from './color-picker.component';
 import LineWidthPicker from './line-width.component';
 import ReactTooltip from 'react-tooltip';
+import TextDialog from './text-dialog.component';
 
 import drawStyles from './styles';
 
@@ -22,6 +23,7 @@ import { ReactComponent as FontIcon } from './font.svg';
 import { ReactComponent as RotateIcon } from './rotate.svg';
 import { ReactComponent as FreehandIcon } from './freehand.svg';
 import { ReactComponent as RadiusIcon } from './radius.svg';
+import { ReactComponent as LabelIcon } from './label.svg';
 
 import lineWidth1PixelIcon from './1px-line-width.svg';
 import lineWidth2PixelIcon from './2px-line-width.svg';
@@ -37,9 +39,9 @@ import LineMode from './modes/line';
 import PolygonMode from './modes/polygon';
 import FreehandPolygonMode from './modes/freehand-polygon';
 import CircleMode from './modes/circle';
+import LabelMode from './modes/label';
 
 import styles from './annotations-panel.module.css';
-import '../index.css';
 
 const primaryColor = '#5796e2';
 const secondaryColor = '#e2e2e2';
@@ -96,7 +98,8 @@ const initialState = {
   lineWidthOption: lineWidthOptions[0],
   lineTypeSelected: false,
   lineTypeOption: lineTypeOptions[0],
-  fillOpacity: 0.5
+  fillOpacity: 0.5,
+  textLabelSelected: false
 };
 
 const SET_FILL_COLOUR_SELECTED = 'SET_FILL_COLOUR_SELECTED';
@@ -109,6 +112,7 @@ const SET_LINE_WIDTH_SELECTED = 'SET_LINE_WIDTH_SELECTED';
 const SET_LINE_WIDTH = 'SET_LINE_WIDTH';
 const SET_LINE_TYPE_SELECTED = 'SET_LINE_TYPE_SELECTED';
 const SET_LINE_TYPE = 'SET_LINE_TYPE';
+const SET_TEXT_LABEL_SELECTED = 'SET_TEXT_LABEL_SELECTED';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -138,6 +142,9 @@ const reducer = (state, action) => {
     case SET_LINE_TYPE:
       return { ...state, lineTypeOption: action.option };
 
+    case SET_TEXT_LABEL_SELECTED:
+      return { ...state, textLabelSelected: !state.textLabelSelected };
+
     default:
       throw new Error('Unknown Action Type: ', action.type);
   }
@@ -155,7 +162,8 @@ const AnnotationsPanel = ({ map }) => {
     lineWidthSelected,
     lineWidthOption,
     lineTypeSelected,
-    lineTypeOption
+    lineTypeOption,
+    textLabelSelected
   } = state;
 
   const drawOptions = {
@@ -173,7 +181,16 @@ const AnnotationsPanel = ({ map }) => {
     displayControlsDefault: false,
     userProperties: true,
     styles: drawStyles,
-    modes: { ...MapboxDraw.modes, RotateMode, RadiusMode, LineMode, PolygonMode, FreehandPolygonMode, CircleMode }
+    modes: {
+      ...MapboxDraw.modes,
+      RotateMode,
+      RadiusMode,
+      LineMode,
+      PolygonMode,
+      FreehandPolygonMode,
+      CircleMode,
+      LabelMode
+    }
   });
 
   useMap(
@@ -213,7 +230,6 @@ const AnnotationsPanel = ({ map }) => {
           className={styles.annotation}
           shape="round"
           onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'LineMode' })}
-          // onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'draw_line_string' })}
           dataFor="drawLineString"
         >
           <LineStringIcon className={styles.icon} />
@@ -226,7 +242,6 @@ const AnnotationsPanel = ({ map }) => {
           className={styles.annotation}
           shape="round"
           onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'PolygonMode' })}
-          // onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'draw_polygon' })}
           dataFor="drawPolygon"
         >
           <PolygonIcon className={styles.icon} />
@@ -282,6 +297,22 @@ const AnnotationsPanel = ({ map }) => {
         <ReactTooltip id="radius">
           <span>Radius Shape</span>
         </ReactTooltip>
+
+        <Button
+          className={styles.annotation}
+          shape="round"
+          onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'LabelMode' })}
+          dataFor="textLabel"
+        >
+          <LabelIcon className={styles.icon} />
+        </Button>
+        <ReactTooltip id="textLabel">
+          <span>Text Label</span>
+        </ReactTooltip>
+
+        {textLabelSelected && (
+          <TextDialog colour={lineColour} setColour={colour => dispatch({ type: SET_LINE_COLOUR, colour })} />
+        )}
       </fieldset>
 
       <fieldset className={styles.fieldset}>
