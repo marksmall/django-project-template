@@ -1,0 +1,7 @@
+.label {
+  z-index: 50;
+  position: absolute;
+  top: 10em;
+  left: 50em;
+  color: red;
+}

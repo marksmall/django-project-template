@@ -1,6 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useRef } from 'react';
+import ReactDOM from 'react-dom';
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import mapboxgl from 'mapbox-gl';
 import useMap from '../map/use-map.hook';
+import { useMapEvent } from '../map/use-map-event.hook';
 import useMapControl from '../map/use-map-control.hook';
 import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
 
@@ -13,6 +18,8 @@ import ColorPicker from './color-picker.component';
 import DropDownButton from './drop-down-button.component';
 import ReactTooltip from 'react-tooltip';
 import TextDialog from './text-dialog.component';
+import LabelForm from '../annotations/label-form.component';
+import { setTextLabelSelected } from './annotations.actions';
 
 import drawStyles from './styles';
 
@@ -151,6 +158,8 @@ const reducer = (state, action) => {
 };
 
 const AnnotationsPanel = ({ map }) => {
+  const globalDispatch = useDispatch();
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
     lineColourSelected,
@@ -174,6 +183,8 @@ const AnnotationsPanel = ({ map }) => {
     lineType: lineTypeOption.value,
     fillOpacity
   };
+
+  const popupRef = useRef(null);
 
   // TODO: Remove positioning of control once creating our own button hooks
   // into each control e.g. line_string, polygon etc.
@@ -205,6 +216,12 @@ const AnnotationsPanel = ({ map }) => {
         mapInstance.on('draw.create', event => {
           console.log('CREATE EVENT: ', event);
         });
+        mapInstance.on('draw.render', event => {
+          console.log('RENDER EVENT: ', event);
+        });
+        mapInstance.on('draw.update', event => {
+          console.log('UPDATE EVENT: ', event);
+        });
         // mapInstance.on('draw.modechange', event => {
         //   console.log('MODE CHANGE: ', event);
         // });
@@ -221,6 +238,38 @@ const AnnotationsPanel = ({ map }) => {
     },
     [mode, drawOptions]
   );
+
+  useMapEvent(
+    map,
+    'click',
+    event => {
+      event.preventDefault();
+      const { features, lngLat } = event;
+      // console.log('FEATURES');
+
+      // When user clicks map open Label Editor.
+      if (!popupRef.current) {
+        popupRef.current = document.createElement('div');
+      }
+
+      // Only take the first feature, which should be the top most
+      // feature and the one you meant.
+      if (textLabelSelected) {
+        console.log('POPUP CONTENT: ', popupRef);
+        new mapboxgl.Popup()
+          // .setLngLat(features[0].geometry.coordinates.slice())
+          .setLngLat(lngLat)
+          .setDOMContent(popupRef.current)
+          .on('close', () => console.log('Closing Popup'))
+          .addTo(map);
+      }
+    },
+    [textLabelSelected]
+  );
+
+  const addLabel = label => {
+    console.log('Add Label: ', label);
+  };
 
   return (
     <div className={styles.panel}>
@@ -301,6 +350,8 @@ const AnnotationsPanel = ({ map }) => {
         <Button
           className={styles.annotation}
           shape="round"
+          // onClick={() => dispatch({ type: SET_TEXT_LABEL_SELECTED })}
+          // onClick={() => globalDispatch(setTextLabelSelected())}
           onClick={() => dispatch({ type: SET_DRAW_MODE, mode: 'LabelMode' })}
           dataFor="textLabel"
         >
@@ -309,10 +360,6 @@ const AnnotationsPanel = ({ map }) => {
         <ReactTooltip id="textLabel">
           <span>Text Label</span>
         </ReactTooltip>
-
-        {textLabelSelected && (
-          <TextDialog colour={lineColour} setColour={colour => dispatch({ type: SET_LINE_COLOUR, colour })} />
-        )}
       </fieldset>
 
       <fieldset className={styles.fieldset}>
@@ -441,6 +488,15 @@ const AnnotationsPanel = ({ map }) => {
           onChange={opacity => dispatch({ type: SET_FILL_OPACITY, opacity })}
         />
       </fieldset>
+
+      {/* {textLabelSelected &&
+        popupRef.current &&
+        ReactDOM.createPortal(
+          <div className={styles.popup}>
+            <LabelForm submit={addLabel} />
+          </div>,
+          popupRef.current
+        )} */}
     </div>
   );
 };

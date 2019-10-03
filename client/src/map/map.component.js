@@ -1,5 +1,5 @@
 import React, { useImperativeHandle, useState, useRef } from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 
 import mapboxgl, { AttributionControl, NavigationControl, ScaleControl } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -15,8 +15,10 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 // import { setClickedFeature, MULTI_SELECT } from '../factsheet/factsheet.action';
 import { useMapEvent, useMapLayerEvent } from './use-map-event.hook';
+import SaveMapControl from '../save-map/save-map-control';
 import { setViewport } from './map.actions';
 import Annotations from '../annotations/annotations.component';
+// import LabelForm from '../annotations/label-form.component';
 // import { formatKey } from '../utils/utils';
 // import InfrastructureDetail from './infrastructure-details.component';
 // import { selectedFeatureIds } from '../factsheet/factsheet.selector';
@@ -46,6 +48,7 @@ const Map = (
     navigation = true,
     scale = true,
     draw = true,
+    save = true,
     layoutInvalidation,
     position
   },
@@ -53,6 +56,8 @@ const Map = (
 ) => {
   const accessToken = useSelector(state => state.app.config.mapbox_token);
   mapboxgl.accessToken = accessToken;
+
+  const labelButtonSelected = useSelector(state => state.annotations.textLabelSelected);
 
   // const { properties, filters, currentFilters, visible, setBounds } = useMapCrossFilter(selectedProperty);
   // const selectedPropertyMetadata = properties.find(property => property.field === selectedProperty);
@@ -81,14 +86,7 @@ const Map = (
     reverseGeocode: true,
     mapboxgl
   });
-  // useMapControl(mapInstance, draw, MapboxDraw, 'top-right', {
-  //   displayControlsDefault: false,
-  //   controls: {
-  //     line_string: true,
-  //     polygon: true,
-  //     trash: true
-  //   }
-  // });
+  useMapControl(mapInstance, save, SaveMapControl, 'top-right');
 
   useMap(
     mapInstance,
@@ -113,6 +111,34 @@ const Map = (
     },
     []
   );
+
+  // useMapEvent(
+  //   mapInstance,
+  //   'click',
+  //   event => {
+  //     event.preventDefault();
+  //     const { features, lngLat } = event;
+  //     // console.log('FEATURES');
+
+  //     // When user clicks map open Label Editor.
+  //     if (!popupRef.current) {
+  //       popupRef.current = document.createElement('div');
+  //     }
+
+  //     // Only take the first feature, which should be the top most
+  //     // feature and the one you meant.
+  //     if (labelButtonSelected) {
+  //       console.log('POPUP CONTENT: ', popupRef);
+  //       new mapboxgl.Popup()
+  //         // .setLngLat(features[0].geometry.coordinates.slice())
+  //         .setLngLat(lngLat)
+  //         .setDOMContent(popupRef.current)
+  //         .on('close', () => console.log('Closing Popup'))
+  //         .addTo(mapInstance);
+  //     }
+  //   },
+  //   [popupRef, labelButtonSelected]
+  // );
 
   // useMap(
   //   mapInstance,
@@ -668,13 +694,16 @@ const Map = (
 
   useImperativeHandle(ref, () => mapInstance);
 
+  // console.log('POPUP: ', popupRef);
   return (
     <div ref={mapContainer} className={layoutStyles.map} data-testid={`map-${position}`}>
       <Annotations map={mapInstance} />
-      {/* {selectedInfrastructureFeature &&
+
+      {/* {popupRef.current &&
         ReactDOM.createPortal(
           <div className={layoutStyles.popup}>
-            <InfrastructureDetail feature={selectedInfrastructureFeature} />
+            <p>I just want some text</p>
+            <LabelForm />
           </div>,
           popupRef.current
         )} */}

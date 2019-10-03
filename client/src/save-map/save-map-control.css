@@ -1,0 +1,15 @@
+.save-map-control {
+  background-color: rgb(255, 255, 255);
+  height: 30px;
+  width: 30px;
+  background-position: 0px -52px;
+  background-size: 26px 260px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 2px;
+  cursor: pointer;
+}
+
+.icon {
+  height: 0.7rem;
+}

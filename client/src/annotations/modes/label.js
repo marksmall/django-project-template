@@ -4,6 +4,10 @@ import doubleClickZoom from '@mapbox/mapbox-gl-draw/src/lib/double_click_zoom';
 import length from '@turf/length';
 import circleFn from '@turf/circle';
 
+// import LabelForm from './text-dialog.component';
+
+import styles from './label.module.css';
+
 const LabelMode = { ...MapboxDraw.modes.draw_point };
 
 LabelMode.onSetup = function(opts) {
@@ -16,6 +20,36 @@ LabelMode.onSetup = function(opts) {
   return {
     ...props
   };
+};
+
+LabelMode.onClick = LabelMode.onTap = function(state, event) {
+  const {
+    lngLat: { lng, lat }
+  } = event;
+
+  this.updateUIClasses({ mouse: Constants.cursors.MOVE });
+  state.point.updateCoordinate('', lng, lat);
+
+  const div = document.createElement('div');
+  div.innerText = 'Some text to hopefully make this element appear in the DOM';
+  div.className = styles.label;
+  const input = document.createElement('input');
+  div.appendChild(input);
+  const button = document.createElement('button');
+  button.innerHTML = 'Add Label';
+  button.onclick = event => {
+    console.log('SAVE TEXT: ', event, input.value);
+    state.point.properties.label = input.value;
+    // this.map.fire(Constants.events.CREATE, {
+    //   features: [state.point.toGeoJSON()]
+    // });
+    this.map.fire(Constants.events.UPDATE, {
+      features: [state.point.toGeoJSON()]
+    });
+    this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.point.id] });
+  };
+  div.appendChild(button);
+  document.body.appendChild(div);
 };
 
 // LabelMode.clickAnywhere = function(state, event) {
@@ -78,18 +112,21 @@ LabelMode.onSetup = function(opts) {
 //   }
 // };
 
-// LabelMode.toDisplayFeatures = function(state, geojson, display) {
-//   const isActiveLine = geojson.properties.id === state.line.id;
-//   geojson.properties.active = isActiveLine ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
-//   if (!isActiveLine) return display(geojson);
+LabelMode.toDisplayFeatures = function(state, geojson, display) {
+  console.log('DISPLAY: ', state, geojson);
+  const isActiveLine = geojson.properties.id === state.point.id;
+  geojson.properties.active = isActiveLine ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+  if (!isActiveLine) return display(geojson);
 
-//   // Only render the line if it has at least one real coordinate
-//   if (geojson.geometry.coordinates.length < 2) return null;
+  // Only render the line if it has at least one real coordinate
+  if (geojson.geometry.coordinates.length < 2) return null;
 
-//   geojson.properties.meta = 'feature';
+  // geojson.properties.meta = 'feature';
+  console.log('DISPLAY: ', state, geojson);
+  geojson.properties.label = 'hello';
 
-//   // Display the line as it is drawn.
-//   display(geojson);
-// };
+  // Display the line as it is drawn.
+  display(geojson);
+};
 
 export default LabelMode;

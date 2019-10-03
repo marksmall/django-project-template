@@ -8,7 +8,6 @@ PolygonMode.onSetup = function(opts) {
     ...props.polygon.properties,
     ...opts
   };
-  console.log('PROPS: ', props);
 
   return {
     ...props
