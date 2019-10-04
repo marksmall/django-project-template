@@ -40,12 +40,13 @@ LabelMode.onClick = LabelMode.onTap = function(state, event) {
   button.onclick = event => {
     console.log('SAVE TEXT: ', event, input.value);
     state.point.properties.label = input.value;
-    // this.map.fire(Constants.events.CREATE, {
-    //   features: [state.point.toGeoJSON()]
-    // });
-    this.map.fire(Constants.events.UPDATE, {
+    console.log('STATE POINT: ', state.point);
+    this.map.fire(Constants.events.CREATE, {
       features: [state.point.toGeoJSON()]
     });
+    // this.map.fire(Constants.events.UPDATE, {
+    //   features: [state.point.toGeoJSON()]
+    // });
     this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.point.id] });
   };
   div.appendChild(button);

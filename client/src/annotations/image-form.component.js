@@ -10,28 +10,28 @@ import Button from '../ui/button.component';
 
 import styles from './form.module.css';
 
-const LabelForm = ({ submit }) => {
+const ImageForm = ({ submit }) => {
   function onSubmit() {
-    console.log('Submitting Form');
-    submit(values);
+    console.log('Submitting Form: ', values);
+    submit(values.image);
   }
 
-  const { handleChange, handleSubmit, reset, values, errors } = useForm(onSubmit, validate);
+  const { handleChange, handleSubmit, values, errors } = useForm(onSubmit, validate);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <h3>Add Label</h3>
+      <h3>Add Image</h3>
 
       <input
-        className={`${styles.input} ${errors.label ? styles.error : ''}`}
+        className={`${styles.input} ${errors.image ? styles.error : ''}`}
         type="text"
-        name="label"
+        name="image"
         onChange={handleChange}
-        value={values.label || ''}
+        value={values.image || ''}
         required
         autoFocus
       />
-      {errors.label && <p className={styles.errorMessage}>{errors.label}</p>}
+      {errors.image && <p className={styles.errorMessage}>{errors.image}</p>}
 
       <div className={styles.buttons}>
         <Button
@@ -46,8 +46,8 @@ const LabelForm = ({ submit }) => {
   );
 };
 
-LabelForm.propTypes = {
+ImageForm.propTypes = {
   submit: PropTypes.func.isRequired
 };
 
-export default LabelForm;
+export default ImageForm;

@@ -18,7 +18,9 @@ import ColorPicker from './color-picker.component';
 import DropDownButton from './drop-down-button.component';
 import ReactTooltip from 'react-tooltip';
 import TextDialog from './text-dialog.component';
-import LabelForm from '../annotations/label-form.component';
+import LabelForm from './label-form.component';
+import ImageForm from './image-form.component';
+
 import { setTextLabelSelected } from './annotations.actions';
 
 import drawStyles from './styles';
@@ -31,6 +33,7 @@ import { ReactComponent as RotateIcon } from './rotate.svg';
 import { ReactComponent as FreehandIcon } from './freehand.svg';
 import { ReactComponent as RadiusIcon } from './radius.svg';
 import { ReactComponent as LabelIcon } from './label.svg';
+import { ReactComponent as ImageIcon } from './image.svg';
 
 import lineWidth1PixelIcon from './1px-line-width.svg';
 import lineWidth2PixelIcon from './2px-line-width.svg';
@@ -47,6 +50,7 @@ import PolygonMode from './modes/polygon';
 import FreehandPolygonMode from './modes/freehand-polygon';
 import CircleMode from './modes/circle';
 import LabelMode from './modes/label';
+import ImageMode from './modes/image';
 
 import styles from './annotations-panel.module.css';
 
@@ -106,7 +110,9 @@ const initialState = {
   lineTypeSelected: false,
   lineTypeOption: lineTypeOptions[0],
   fillOpacity: 0.5,
-  textLabelSelected: false
+  textLabelSelected: false,
+  addImageSelected: false,
+  imageUrl: ''
 };
 
 const SET_FILL_COLOUR_SELECTED = 'SET_FILL_COLOUR_SELECTED';
@@ -120,6 +126,8 @@ const SET_LINE_WIDTH = 'SET_LINE_WIDTH';
 const SET_LINE_TYPE_SELECTED = 'SET_LINE_TYPE_SELECTED';
 const SET_LINE_TYPE = 'SET_LINE_TYPE';
 const SET_TEXT_LABEL_SELECTED = 'SET_TEXT_LABEL_SELECTED';
+const ADD_IMAGE_SELECTED = 'ADD_IMAGE_SELECTED';
+const ADD_IMAGE = 'ADD_IMAGE';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -152,6 +160,12 @@ const reducer = (state, action) => {
     case SET_TEXT_LABEL_SELECTED:
       return { ...state, textLabelSelected: !state.textLabelSelected };
 
+    case ADD_IMAGE_SELECTED:
+      return { ...state, addImageSelected: !state.addImageSelected };
+    case ADD_IMAGE:
+      console.log('SET IMAGE URL: ', action.imageUrl);
+      return { ...state, imageUrl: action.imageUrl };
+
     default:
       throw new Error('Unknown Action Type: ', action.type);
   }
@@ -172,7 +186,9 @@ const AnnotationsPanel = ({ map }) => {
     lineWidthOption,
     lineTypeSelected,
     lineTypeOption,
-    textLabelSelected
+    textLabelSelected,
+    addImageSelected,
+    imageUrl
   } = state;
 
   const drawOptions = {
@@ -181,7 +197,8 @@ const AnnotationsPanel = ({ map }) => {
     lineWidth: lineWidthOption.value,
     lineTypeName: lineTypeOption.id,
     lineType: lineTypeOption.value,
-    fillOpacity
+    fillOpacity,
+    imageUrl
   };
 
   const popupRef = useRef(null);
@@ -200,7 +217,8 @@ const AnnotationsPanel = ({ map }) => {
       PolygonMode,
       FreehandPolygonMode,
       CircleMode,
-      LabelMode
+      LabelMode,
+      ImageMode
     }
   });
 
@@ -213,15 +231,15 @@ const AnnotationsPanel = ({ map }) => {
         // mapInstance.on('draw.selectionchange', event => {
         //   console.log('SELECTION CHANGE: ', event, drawCtrl.getMode());
         // });
-        mapInstance.on('draw.create', event => {
-          console.log('CREATE EVENT: ', event);
-        });
-        mapInstance.on('draw.render', event => {
-          console.log('RENDER EVENT: ', event);
-        });
-        mapInstance.on('draw.update', event => {
-          console.log('UPDATE EVENT: ', event);
-        });
+        // mapInstance.on('draw.create', event => {
+        //   console.log('CREATE EVENT: ', event, drawCtrl.getAll());
+        // });
+        // mapInstance.on('draw.render', event => {
+        //   console.log('RENDER EVENT: ', event, drawCtrl.getAll());
+        // });
+        // mapInstance.on('draw.update', event => {
+        //   console.log('UPDATE EVENT: ', event);
+        // });
         // mapInstance.on('draw.modechange', event => {
         //   console.log('MODE CHANGE: ', event);
         // });
@@ -360,7 +378,28 @@ const AnnotationsPanel = ({ map }) => {
         <ReactTooltip id="textLabel">
           <span>Text Label</span>
         </ReactTooltip>
+
+        <Button
+          className={styles.annotation}
+          shape="round"
+          onClick={() => dispatch({ type: ADD_IMAGE_SELECTED })}
+          dataFor="image"
+        >
+          <ImageIcon className={styles.icon} />
+        </Button>
+        <ReactTooltip id="image">
+          <span>Add Image</span>
+        </ReactTooltip>
       </fieldset>
+
+      {addImageSelected && (
+        <ImageForm
+          submit={imageUrl => {
+            dispatch({ type: ADD_IMAGE, imageUrl });
+            dispatch({ type: SET_DRAW_MODE, mode: 'ImageMode' });
+          }}
+        />
+      )}
 
       <fieldset className={styles.fieldset}>
         <legend>Delete Shapes</legend>

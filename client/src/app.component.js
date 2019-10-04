@@ -69,7 +69,8 @@ const App = () => {
   // startup.
   useEffect(() => {
     if (!trackingId) {
-      ReactGA.initialize(trackingId, { debug: true });
+      ReactGA.initialize(trackingId);
+      // ReactGA.initialize(trackingId, { debug: true });
       ReactGA.pageview('/', null, 'APPLICATION NAME App');
     }
   }, [dispatch, trackingId]);

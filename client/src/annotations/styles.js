@@ -273,56 +273,55 @@ export default [
       'circle-color': 'blue'
     }
   },
-  // {
-  //   id: 'gl-draw-polygon-fill-static',
-  //   type: 'fill',
-  //   filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
-  //   paint: {
-  //     'fill-color': '#404040',
-  //     'fill-outline-color': '#404040',
-  //     'fill-opacity': 0.1
-  //   }
-  // },
-  // {
-  //   id: 'gl-draw-polygon-stroke-static',
-  //   type: 'line',
-  //   filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
-  //   layout: {
-  //     'line-cap': 'round',
-  //     'line-join': 'round'
-  //   },
-  //   paint: {
-  //     'line-color': '#404040',
-  //     'line-width': 2
-  //   }
-  // },
-  // {
-  //   id: 'gl-draw-line-static',
-  //   type: 'line',
-  //   filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'LineString']],
-  //   layout: {
-  //     'line-cap': 'round',
-  //     'line-join': 'round'
-  //   },
-  //   paint: {
-  //     'line-color': '#404040',
-  //     'line-width': 2
-  //   }
-  // },
-  // {
-  //   id: 'gl-draw-point-static',
-  //   type: 'circle',
-  //   filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Point']],
-  //   paint: {
-  //     'circle-radius': 5,
-  //     'circle-color': '#404040'
-  //   }
-  // },
+  {
+    id: 'gl-draw-polygon-fill-static',
+    type: 'fill',
+    filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
+    paint: {
+      'fill-color': '#404040',
+      'fill-outline-color': '#404040',
+      'fill-opacity': 0.1
+    }
+  },
+  {
+    id: 'gl-draw-polygon-stroke-static',
+    type: 'line',
+    filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-color': '#404040',
+      'line-width': 2
+    }
+  },
+  {
+    id: 'gl-draw-line-static',
+    type: 'line',
+    filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'LineString']],
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-color': '#404040',
+      'line-width': 2
+    }
+  },
+  {
+    id: 'gl-draw-point-static',
+    type: 'circle',
+    filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Point']],
+    paint: {
+      'circle-radius': 5,
+      'circle-color': '#404040'
+    }
+  },
   {
     id: 'gl-draw-point-label',
     type: 'symbol',
     filter: ['all', ['==', '$type', 'Point']],
-    // filter: ['all', ['==', '$type', 'LineString'], ['==', 'active', 'true'], ['==', 'meta', 'currentPosition']],
     layout: {
       'text-field': '{label}',
       'text-anchor': 'left',
@@ -334,10 +333,6 @@ export default [
       'text-color': 'rgba(0, 0, 0, 1)',
       'text-halo-color': 'rgba(255, 255, 255, 1)',
       'text-halo-width': 3,
-      // 'icon-opacity': {
-      //   base: 1,
-      //   stops: [[7.99, 1], [8, 0]]
-      // },
       'text-halo-blur': 1
     }
   },
@@ -345,7 +340,6 @@ export default [
     id: 'gl-draw-point-label-inactive',
     type: 'symbol',
     filter: ['all', ['==', '$type', 'Point']],
-    // filter: ['all', ['==', '$type', 'LineString'], ['==', 'active', 'true'], ['==', 'meta', 'currentPosition']],
     layout: {
       'text-field': '{label}',
       'text-anchor': 'left',
@@ -357,11 +351,15 @@ export default [
       'text-color': 'rgba(0, 0, 0, 1)',
       'text-halo-color': 'rgba(255, 255, 255, 1)',
       'text-halo-width': 3,
-      // 'icon-opacity': {
-      //   base: 1,
-      //   stops: [[7.99, 1], [8, 0]]
-      // },
       'text-halo-blur': 1
+    }
+  },
+  {
+    id: 'gl-draw-image',
+    type: 'raster',
+    filter: ['all', ['==', '$type', 'Point'], ['==', 'mode', 'ImageMode']],
+    paint: {
+      'raster-opacity': 0.5
     }
   }
 ];
