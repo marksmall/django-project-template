@@ -13,8 +13,8 @@ const useMapbox = style => {
       container: mapContainer.current,
       style: style,
       ...viewport.current,
-
-      attributionControl: false
+      attributionControl: false,
+      preserveDrawingBuffer: true
     });
 
     map.on('load', () => {

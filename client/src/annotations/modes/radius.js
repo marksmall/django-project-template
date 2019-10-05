@@ -137,6 +137,7 @@ RadiusMode.onStop = function(state) {
       features: [state.line.toGeoJSON(), state.circle.toGeoJSON(), state.label.toGeoJSON()]
     });
   } else {
+    console.log('DELETEING');
     this.deleteFeature([state.line.id], { silent: true });
     this.deleteFeature([state.circle.id], { silent: true });
     this.deleteFeature([state.label.id], { silent: true });
