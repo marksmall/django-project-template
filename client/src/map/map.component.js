@@ -18,6 +18,8 @@ import { useMapEvent, useMapLayerEvent } from './use-map-event.hook';
 import SaveMapControl from '../save-map/save-map-control';
 import { setViewport } from './map.actions';
 import Annotations from '../annotations/annotations.component';
+import Bookmarks from '../bookmarks/bookmarks.component';
+
 // import LabelForm from '../annotations/label-form.component';
 // import { formatKey } from '../utils/utils';
 // import InfrastructureDetail from './infrastructure-details.component';
@@ -698,6 +700,7 @@ const Map = (
   return (
     <div ref={mapContainer} className={layoutStyles.map} data-testid={`map-${position}`}>
       <Annotations map={mapInstance} />
+      <Bookmarks map={mapInstance} />
 
       {/* {popupRef.current &&
         ReactDOM.createPortal(

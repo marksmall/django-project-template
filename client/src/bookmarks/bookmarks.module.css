@@ -1,0 +1,10 @@
+.bookmarks {
+  position: absolute;
+  top: 9rem;
+  left: 2rem;
+  z-index: 5;
+}
+
+.icon {
+  width: 1rem;
+}
