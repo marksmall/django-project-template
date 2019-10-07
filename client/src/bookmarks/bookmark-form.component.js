@@ -23,15 +23,15 @@ const BookmarkForm = ({ submit }) => {
       <h3>Save Bookmark</h3>
 
       <input
-        className={`${styles.input} ${errors.bookmark ? styles.error : ''}`}
+        className={`${styles.input} ${errors.title ? styles.error : ''}`}
         type="text"
-        name="bookmark"
+        name="title"
         onChange={handleChange}
-        value={values.bookmark || ''}
+        value={values.title || ''}
         required
         autoFocus
       />
-      {errors.bookmark && <p className={styles.errorMessage}>{errors.bookmark}</p>}
+      {errors.title && <p className={styles.errorMessage}>{errors.title}</p>}
 
       <div className={styles.buttons}>
         <Button

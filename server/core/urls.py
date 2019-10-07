@@ -16,13 +16,13 @@ from astrosat_users.urls import (
     api_urlpatterns as astrosat_users_api_urlpatterns
 )
 
-from {{project_name}}.urls import (
-    urlpatterns as {{project_name}}_urlpatterns,
-    api_urlpatterns as {{project_name}}_api_urlpatterns
+from orbis.urls import (
+    urlpatterns as orbis_urlpatterns,
+    api_urlpatterns as orbis_api_urlpatterns
 )
 
 from .views import index_view
-from .views_api import app_config_view
+from .views_api import app_config_view, fetch_bookmarks
 
 
 app_name = "core"
@@ -48,11 +48,12 @@ api_router = SimpleRouter()
 api_urlpatterns = [
     path("", include(api_router.urls)),
     path("app/config", app_config_view, name="appconfig"),
-    path("swagger/", get_swagger_view(title="{{project_name}} API"), name="swagger")
+    path("bookmarks/", fetch_bookmarks, name="bookmarks"),
+    path("swagger/", get_swagger_view(title="orbis API"), name="swagger")
 ]
 api_urlpatterns += astrosat_api_urlpatterns
 api_urlpatterns += astrosat_users_api_urlpatterns
-api_urlpatterns += {{project_name}}_api_urlpatterns
+api_urlpatterns += orbis_api_urlpatterns
 
 
 #################
@@ -81,7 +82,7 @@ urlpatterns = [
     # astrosat users...
     path("users/", include(astrosat_users_urlpatterns)),
     # tasks... NA
-    # {{project_name}}...  NA
+    # orbis...  NA
 
     # note: index_view is added at the very end of this module!
 

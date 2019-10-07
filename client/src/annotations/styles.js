@@ -187,13 +187,14 @@ export default [
   {
     id: 'gl-draw-line-label',
     type: 'symbol',
-    filter: ['all', ['==', '$type', 'Point'], ['has', 'radiusMetric']],
+    filter: ['all', ['==', '$type', 'Point']],
     // filter: ['all', ['==', '$type', 'LineString'], ['==', 'active', 'true'], ['==', 'meta', 'currentPosition']],
     layout: {
-      'text-field': '{radiusMetric} \n {radiusStandard}',
+      'text-field': '{user_radiusMetric} \n {user_radiusStandard}',
       'text-anchor': 'left',
       'text-offset': [0, 0],
-      'text-size': 16
+      'text-size': 16,
+      'text-allow-overlap': true
     },
     paint: {
       'text-color': 'rgba(0, 0, 0, 1)',
@@ -323,7 +324,7 @@ export default [
     type: 'symbol',
     filter: ['all', ['==', '$type', 'Point']],
     layout: {
-      'text-field': '{label}',
+      'text-field': '{user_label}',
       'text-anchor': 'left',
       'text-offset': [0, 0],
       'text-size': 16,
@@ -341,7 +342,7 @@ export default [
     type: 'symbol',
     filter: ['all', ['==', '$type', 'Point']],
     layout: {
-      'text-field': '{label}',
+      'text-field': '{user_label}',
       'text-anchor': 'left',
       'text-offset': [0, 0],
       'text-size': 16,
@@ -353,13 +354,13 @@ export default [
       'text-halo-width': 3,
       'text-halo-blur': 1
     }
-  },
-  {
-    id: 'gl-draw-image',
-    type: 'raster',
-    filter: ['all', ['==', '$type', 'Point'], ['==', 'mode', 'ImageMode']],
-    paint: {
-      'raster-opacity': 0.5
-    }
+    // },
+    // {
+    //   id: 'gl-draw-image',
+    //   type: 'raster',
+    //   filter: ['all', ['==', '$type', 'Point'], ['==', 'mode', 'ImageMode']],
+    //   paint: {
+    //     'raster-opacity': 0.5
+    //   }
   }
 ];

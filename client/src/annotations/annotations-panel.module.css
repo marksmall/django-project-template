@@ -1,5 +1,4 @@
 .panel {
-  position: absolute;
   display: flex;
   justify-content: space-evenly;
   padding: 1rem;

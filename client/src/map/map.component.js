@@ -61,6 +61,8 @@ const Map = (
 
   const labelButtonSelected = useSelector(state => state.annotations.textLabelSelected);
 
+  const selectedBookmark = useSelector(state => state.bookmarks.selectedBookmark);
+
   // const { properties, filters, currentFilters, visible, setBounds } = useMapCrossFilter(selectedProperty);
   // const selectedPropertyMetadata = properties.find(property => property.field === selectedProperty);
   const { mapContainer, mapInstance } = useMapbox(style);
@@ -112,6 +114,23 @@ const Map = (
       dispatch(setViewport(viewport));
     },
     []
+  );
+
+  useMap(
+    mapInstance,
+    map => {
+      console.log('MAP STYLE: ', map.getStyle());
+      if (selectedBookmark) {
+        const source = map.getSource('mapbox-gl-draw-cold');
+        if (!source) {
+          map.addSource('mapbox-gl-draw.cold', selectedBookmark.sources[0].data);
+        } else {
+          console.log('SETTING DATA');
+          source.setData(selectedBookmark.sources[0].data);
+        }
+      }
+    },
+    [selectedBookmark]
   );
 
   // useMapEvent(

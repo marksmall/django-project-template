@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import useMap from '../map/use-map.hook';
 import { useMapEvent } from '../map/use-map-event.hook';
-import useMapControl from '../map/use-map-control.hook';
-import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
 
 // import Slider from 'rc-slider'
 import Slider from 'rc-slider/lib/Slider';
@@ -22,8 +20,6 @@ import LabelForm from './label-form.component';
 import ImageForm from './image-form.component';
 
 import { setTextLabelSelected } from './annotations.actions';
-
-import drawStyles from './styles';
 
 import { ReactComponent as LineStringIcon } from './linestring.svg';
 import { ReactComponent as PolygonIcon } from './polygon.svg';
@@ -42,15 +38,6 @@ import lineWidth3PixelIcon from './3px-line-width.svg';
 import lineTypeSolidIcon from './line-type-solid.svg';
 import lineTypeDashedIcon from './line-type-dashed.svg';
 import lineTypeDottedIcon from './line-type-dotted.svg';
-
-import RotateMode from 'mapbox-gl-draw-rotate-mode';
-import RadiusMode from './modes/radius';
-import LineMode from './modes/line';
-import PolygonMode from './modes/polygon';
-import FreehandPolygonMode from './modes/freehand-polygon';
-import CircleMode from './modes/circle';
-import LabelMode from './modes/label';
-import ImageMode from './modes/image';
 
 import styles from './annotations-panel.module.css';
 
@@ -202,25 +189,6 @@ const AnnotationsPanel = ({ map }) => {
   };
 
   const popupRef = useRef(null);
-
-  // TODO: Remove positioning of control once creating our own button hooks
-  // into each control e.g. line_string, polygon etc.
-  useMapControl(map, true, MapboxDraw, 'top-left', {
-    displayControlsDefault: false,
-    userProperties: true,
-    styles: drawStyles,
-    modes: {
-      ...MapboxDraw.modes,
-      RotateMode,
-      RadiusMode,
-      LineMode,
-      PolygonMode,
-      FreehandPolygonMode,
-      CircleMode,
-      LabelMode,
-      ImageMode
-    }
-  });
 
   useMap(
     map,

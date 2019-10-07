@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 
 import styles from './bookmarks-panel.module.css';
 
-const BookmarkList = ({ bookmarks }) => {
+const BookmarkList = ({ bookmarks, selectBookmark }) => {
   return (
     <div className={styles.panel}>
-      {bookmarks.length > 0 ? (
+      {bookmarks && bookmarks.length > 0 ? (
         <ul>
           {bookmarks.map(bookmark => {
-            return <li>{bookmark.name}</li>;
+            return (
+              <li key={bookmark.title} onClick={() => selectBookmark(bookmark)}>
+                {bookmark.title}
+              </li>
+            );
           })}
         </ul>
       ) : (
@@ -20,7 +24,8 @@ const BookmarkList = ({ bookmarks }) => {
 };
 
 BookmarkList.propTypes = {
-  bookmarks: PropTypes.array.isRequired
+  bookmarks: PropTypes.array,
+  selectBookmark: PropTypes.func.isRequired
 };
 
 export default BookmarkList;

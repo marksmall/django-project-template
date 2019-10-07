@@ -13,6 +13,7 @@ import accounts from './accounts/accounts.reducer';
 import theming from './theming/theming.reducer';
 import admin from './accounts/admin/users.reducer';
 import annotations from './annotations/annotations.reducer';
+import bookmarks from './bookmarks/bookmarks.reducer';
 
 export const history = createBrowserHistory();
 
@@ -24,6 +25,7 @@ const createRootReducer = history =>
     theming,
     admin,
     annotations,
+    bookmarks,
     router: connectRouter(history)
   });
 
