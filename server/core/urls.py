@@ -45,7 +45,7 @@ handler500 = "astrosat.views.handler500"
 
 
 api_router = SimpleRouter()
-api_router.register(r'bookmarks', BookmarkViewSet)
+api_router.register(r'bookmark', BookmarkViewSet)
 
 api_urlpatterns = [
     path("", include(api_router.urls)),

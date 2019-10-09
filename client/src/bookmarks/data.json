@@ -1,75 +1,73 @@
 {
   "title": "sdfh",
-  "sources": [
-    {
-      "data": {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "properties": {
-              "id": "9389236ee746ad8f14c7c2bd1e177a35",
-              "meta": "feature",
-              "meta:type": "LineString",
-              "active": "true",
-              "mode": "simple_select",
-              "user_fillColour": "#fff",
-              "user_lineColour": "#fff",
-              "user_lineWidth": 1,
-              "user_lineTypeName": "solid",
-              "user_lineType": false,
-              "user_fillOpacity": 0.5,
-              "user_imageUrl": ""
-            },
-            "geometry": {
-              "coordinates": [
-                [
-                  -12.696257342699283,
-                  57.63217754324526
-                ],
-                [
-                  -8.081823462662953,
-                  56.196224162098275
-                ]
-              ],
-              "type": "LineString"
-            }
+  "source": {
+    "data": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "9389236ee746ad8f14c7c2bd1e177a35",
+            "meta": "feature",
+            "meta:type": "LineString",
+            "active": "true",
+            "mode": "simple_select",
+            "fillColour": "#fff",
+            "lineColour": "#fff",
+            "lineWidth": 1,
+            "lineTypeName": "solid",
+            "lineType": false,
+            "fillOpacity": 0.5,
+            "imageUrl": ""
           },
-          {
-            "type": "Feature",
-            "properties": {
-              "meta": "vertex",
-              "parent": "9389236ee746ad8f14c7c2bd1e177a35",
-              "coord_path": "0",
-              "active": "false"
-            },
-            "geometry": {
-              "type": "Point",
-              "coordinates": [
+          "geometry": {
+            "coordinates": [
+              [
                 -12.696257342699283,
                 57.63217754324526
-              ]
-            }
-          },
-          {
-            "type": "Feature",
-            "properties": {
-              "meta": "vertex",
-              "parent": "9389236ee746ad8f14c7c2bd1e177a35",
-              "coord_path": "1",
-              "active": "false"
-            },
-            "geometry": {
-              "type": "Point",
-              "coordinates": [
+              ],
+              [
                 -8.081823462662953,
                 56.196224162098275
               ]
-            }
+            ],
+            "type": "LineString"
           }
-        ]
-      },
-      "type": "geojson"
-    }
-  ]
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "meta": "vertex",
+            "parent": "9389236ee746ad8f14c7c2bd1e177a35",
+            "coord_path": "0",
+            "active": "false"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -12.696257342699283,
+              57.63217754324526
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "meta": "vertex",
+            "parent": "9389236ee746ad8f14c7c2bd1e177a35",
+            "coord_path": "1",
+            "active": "false"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -8.081823462662953,
+              56.196224162098275
+            ]
+          }
+        }
+      ]
+    },
+    "type": "geojson"
+  }
 }

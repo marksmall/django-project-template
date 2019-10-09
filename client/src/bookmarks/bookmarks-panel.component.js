@@ -11,19 +11,22 @@ import styles from './bookmarks-panel.module.css';
 const BookmarksPanel = ({ map }) => {
   const dispatch = useDispatch();
 
-  const submit = values => {
-    const style = map.getStyle();
+  const submit = form => {
+    const drawCtrl = map._controls.find(ctrl => ctrl.changeMode);
+    const featureCollection = drawCtrl.getAll();
+    // Strip `user_` from feature properties as this is added again, when re-loaded.
+    featureCollection.features = featureCollection.features.map(feature => {
+      const properties = {
+        ...Object.keys(feature.properties).map(key => ({ [key.replace('user_', '')]: feature.properties[key] }))
+      };
+      feature.properties = properties;
+      return feature;
+    });
 
-    const mapboxDrawSource = Object.keys(style.sources)
-      .filter(source => source === 'mapbox-gl-draw-cold')
-      .map(source => style.sources[source])[0];
-    console.log('BOOKMARK SUBMITTED: ', style, mapboxDrawSource, values, map.getCenter(), map.getZoom());
-    dispatch(addBookmark({ ...values, source: mapboxDrawSource.data, center: map.getCenter(), zoom: map.getZoom() }));
+    dispatch(addBookmark({ ...form, source: featureCollection, center: map.getCenter(), zoom: map.getZoom() }));
   };
 
-  const chooseBookmark = bookmark => {
-    dispatch(selectBookmark(bookmark));
-  };
+  const chooseBookmark = bookmark => dispatch(selectBookmark(bookmark));
 
   const bookmarks = useSelector(state => state.bookmarks.bookmarks);
 

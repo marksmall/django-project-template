@@ -206,7 +206,7 @@ const AnnotationsPanel = ({ map }) => {
         //   console.log('RENDER EVENT: ', event, drawCtrl.getAll());
         // });
         // mapInstance.on('draw.update', event => {
-        //   console.log('UPDATE EVENT: ', event);
+        //   console.log('UPDATE EVENT: ', event, drawCtrl.getAll());
         // });
         // mapInstance.on('draw.modechange', event => {
         //   console.log('MODE CHANGE: ', event);

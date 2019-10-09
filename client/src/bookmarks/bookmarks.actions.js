@@ -14,7 +14,7 @@ export const SELECT_BOOKMARK = 'SELECT_BOOKMARK';
 
 const API = {
   fetch: '/api/bookmarks',
-  add: '/api/bookmarks/'
+  add: '/api/bookmark/'
 };
 
 export const fetchBookmarks = () => async dispatch => {

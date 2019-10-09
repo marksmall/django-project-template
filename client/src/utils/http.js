@@ -1,11 +1,12 @@
 const cookiesToArray = () => {
   // Map cookies to an array of object key/value pairs.
-  const cookiesArray = document.cookie.split(' ');
+  const cookiesArray = document.cookie.split('; ');
   let cookies = cookiesArray.map(cookieString => {
     const cookie = cookieString.split('=');
 
     return { name: cookie[0], value: cookie[1] };
   });
+  console.log('COOKIE: ', cookiesArray, cookies);
 
   return cookies;
 };

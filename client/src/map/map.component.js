@@ -17,6 +17,7 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 // import { setClickedFeature, MULTI_SELECT } from '../factsheet/factsheet.action';
 import { useMapEvent, useMapLayerEvent } from './use-map-event.hook';
 import SaveMapControl from '../save-map/save-map-control';
+import LayerTreeControl from '../layer-tree/layer-tree.control';
 import { setViewport } from './map.actions';
 import Annotations from '../annotations/annotations.component';
 import Bookmarks from '../bookmarks/bookmarks.component';
@@ -64,6 +65,7 @@ const Map = (
     scale = true,
     draw = true,
     save = true,
+    layerTree = true,
     layoutInvalidation,
     position
   },
@@ -120,6 +122,7 @@ const Map = (
       ImageMode
     }
   });
+  useMapControl(mapInstance, layerTree, LayerTreeControl, 'top-right');
 
   useMap(
     mapInstance,
@@ -148,25 +151,13 @@ const Map = (
   useMap(
     mapInstance,
     map => {
-      // console.log('MAP STYLE: ', map.getStyle());
       if (selectedBookmark) {
-        const source = map.getSource('mapbox-gl-draw-cold');
-        console.log('SOURCE IN MAP STYLE: ', map.getStyle());
-        if (source) {
-          console.log('SETTING DATA: ', selectedBookmark, JSON.stringify(selectedBookmark.source.data));
-          source.setData(selectedBookmark.source.data);
-        }
+        const drawCtrl = mapInstance._controls.find(ctrl => ctrl.changeMode);
+        drawCtrl.deleteAll();
+        drawCtrl.set(selectedBookmark.source.data);
       }
     },
     [selectedBookmark]
-  );
-
-  useMap(
-    mapInstance,
-    map => {
-      console.log('MAP STYLE: ', map.getStyle());
-    },
-    []
   );
 
   // useMapEvent(
