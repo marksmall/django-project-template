@@ -22,7 +22,7 @@ from orbis.urls import (
 )
 
 from .views import index_view
-from .views_api import app_config_view, fetch_bookmarks
+from .views_api import app_config_view, fetch_bookmarks, add_bookmark, BookmarkViewSet
 
 
 app_name = "core"
@@ -45,10 +45,14 @@ handler500 = "astrosat.views.handler500"
 
 
 api_router = SimpleRouter()
+api_router.register(r'bookmarks', BookmarkViewSet)
+
 api_urlpatterns = [
     path("", include(api_router.urls)),
     path("app/config", app_config_view, name="appconfig"),
-    path("bookmarks/", fetch_bookmarks, name="bookmarks"),
+    path("bookmarks", fetch_bookmarks, name="bookmarks"),
+    # path("bookmarks", fetch_bookmarks, name="bookmarks"),
+    # path("bookmarks/", add_bookmark, name="bookmark"),
     path("swagger/", get_swagger_view(title="orbis API"), name="swagger")
 ]
 api_urlpatterns += astrosat_api_urlpatterns

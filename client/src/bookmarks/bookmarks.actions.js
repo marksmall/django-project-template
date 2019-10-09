@@ -14,7 +14,7 @@ export const SELECT_BOOKMARK = 'SELECT_BOOKMARK';
 
 const API = {
   fetch: '/api/bookmarks',
-  add: '/api/bookmarks/:id'
+  add: '/api/bookmarks/'
 };
 
 export const fetchBookmarks = () => async dispatch => {
@@ -38,8 +38,8 @@ export const fetchBookmarks = () => async dispatch => {
   return dispatch({ type: FETCH_BOOKMARKS_SUCCESS, bookmarks });
 };
 
-export const addBookmark = form => async dispatch => {
-  const response = await sendData(API.add, form, JSON_HEADERS);
+export const addBookmark = bookmark => async dispatch => {
+  const response = await sendData(API.add, bookmark, JSON_HEADERS);
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -52,8 +52,6 @@ export const addBookmark = form => async dispatch => {
       error
     });
   } else {
-    const bookmark = await response.json();
-
     NotificationManager.success('Successfully bookmarked map', 'Successful map bookmaring', 5000, () => {});
 
     return dispatch({

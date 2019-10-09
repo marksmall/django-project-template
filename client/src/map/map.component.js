@@ -3,12 +3,13 @@ import React, { useImperativeHandle, useState, useRef } from 'react';
 
 import mapboxgl, { AttributionControl, NavigationControl, ScaleControl } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
+
 import { useDispatch, useSelector } from 'react-redux';
 // import { useMapCrossFilter } from '../crossfilter';
 import useMapbox from './use-mapbox.hook';
 import useMap from './use-map.hook';
 import useMapControl from './use-map-control.hook';
-import layoutStyles from './map-layout.module.css';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 // import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw';
@@ -25,6 +26,18 @@ import Bookmarks from '../bookmarks/bookmarks.component';
 // import InfrastructureDetail from './infrastructure-details.component';
 // import { selectedFeatureIds } from '../factsheet/factsheet.selector';
 // import { CUSTOM_DATA_THRESHOLD } from '../constants';
+
+import RotateMode from 'mapbox-gl-draw-rotate-mode';
+import RadiusMode from '../annotations/modes/radius';
+import LineMode from '../annotations/modes/line';
+import PolygonMode from '../annotations/modes/polygon';
+import FreehandPolygonMode from '../annotations/modes/freehand-polygon';
+import CircleMode from '../annotations/modes/circle';
+import LabelMode from '../annotations/modes/label';
+import ImageMode from '../annotations/modes/image';
+
+import drawStyles from '../annotations/styles';
+import layoutStyles from './map-layout.module.css';
 
 // const interpolate = interpolation => (property, filter, values) => [
 //   interpolation,
@@ -91,6 +104,22 @@ const Map = (
     mapboxgl
   });
   useMapControl(mapInstance, save, SaveMapControl, 'top-right');
+  useMapControl(mapInstance, true, MapboxDraw, 'top-left', {
+    displayControlsDefault: false,
+    userProperties: true,
+    styles: drawStyles,
+    modes: {
+      ...MapboxDraw.modes,
+      RotateMode,
+      RadiusMode,
+      LineMode,
+      PolygonMode,
+      FreehandPolygonMode,
+      CircleMode,
+      LabelMode,
+      ImageMode
+    }
+  });
 
   useMap(
     mapInstance,
@@ -119,18 +148,25 @@ const Map = (
   useMap(
     mapInstance,
     map => {
-      console.log('MAP STYLE: ', map.getStyle());
+      // console.log('MAP STYLE: ', map.getStyle());
       if (selectedBookmark) {
         const source = map.getSource('mapbox-gl-draw-cold');
-        if (!source) {
-          map.addSource('mapbox-gl-draw.cold', selectedBookmark.sources[0].data);
-        } else {
-          console.log('SETTING DATA');
-          source.setData(selectedBookmark.sources[0].data);
+        console.log('SOURCE IN MAP STYLE: ', map.getStyle());
+        if (source) {
+          console.log('SETTING DATA: ', selectedBookmark, JSON.stringify(selectedBookmark.source.data));
+          source.setData(selectedBookmark.source.data);
         }
       }
     },
     [selectedBookmark]
+  );
+
+  useMap(
+    mapInstance,
+    map => {
+      console.log('MAP STYLE: ', map.getStyle());
+    },
+    []
   );
 
   // useMapEvent(

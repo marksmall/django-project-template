@@ -1,5 +1,12 @@
 from rest_framework import serializers
 
+from .models import Bookmark
+
+class BookmarkSerializer(serializers.ModelSerializer):
+    """ Serialize Bookmark objects. """
+    class Meta(object):
+        model = Bookmark
+        fields = ('id', 'title', 'center', 'zoom', 'source')
 
 class CRUDListSerialilzer(serializers.ListSerializer):
 

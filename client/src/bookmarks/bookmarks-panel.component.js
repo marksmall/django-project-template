@@ -12,18 +12,16 @@ const BookmarksPanel = ({ map }) => {
   const dispatch = useDispatch();
 
   const submit = values => {
-    console.log('BOOKMARK VALUES: ', values);
     const style = map.getStyle();
 
-    const sources = Object.keys(style.sources)
-      .filter(source => source.startsWith('mapbox-gl-draw'))
-      .map(source => style.sources[source]);
-    console.log('SOURCES: ', sources, values, map.getCenter(), map.getZoom());
-    dispatch(addBookmark({ ...values, sources }));
+    const mapboxDrawSource = Object.keys(style.sources)
+      .filter(source => source === 'mapbox-gl-draw-cold')
+      .map(source => style.sources[source])[0];
+    console.log('BOOKMARK SUBMITTED: ', style, mapboxDrawSource, values, map.getCenter(), map.getZoom());
+    dispatch(addBookmark({ ...values, source: mapboxDrawSource.data, center: map.getCenter(), zoom: map.getZoom() }));
   };
 
   const chooseBookmark = bookmark => {
-    console.log('SELECTED BOOKMARK: ', bookmark);
     dispatch(selectBookmark(bookmark));
   };
 
@@ -34,7 +32,6 @@ const BookmarksPanel = ({ map }) => {
       dispatch(fetchBookmarks());
     }
   }, [bookmarks]);
-  console.log('BOOKMARKS: ', bookmarks);
 
   return (
     <div className={styles.panel}>
