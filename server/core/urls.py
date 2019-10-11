@@ -16,9 +16,9 @@ from astrosat_users.urls import (
     api_urlpatterns as astrosat_users_api_urlpatterns
 )
 
-from orbis.urls import (
-    urlpatterns as orbis_urlpatterns,
-    api_urlpatterns as orbis_api_urlpatterns
+from {{project_name}}.urls import (
+    urlpatterns as {{project_name}}_urlpatterns,
+    api_urlpatterns as {{project_name}}_api_urlpatterns
 )
 
 from .views import index_view
@@ -49,11 +49,11 @@ api_router.register(r'bookmark', BookmarkViewSet)
 
 api_urlpatterns = [
     path("", include(api_router.urls)),
+    path("swagger/", get_swagger_view(title="orbis API"), name="swagger"),
     path("app/config", app_config_view, name="appconfig"),
     path("bookmarks", fetch_bookmarks, name="bookmarks"),
     # path("bookmarks", fetch_bookmarks, name="bookmarks"),
     # path("bookmarks/", add_bookmark, name="bookmark"),
-    path("swagger/", get_swagger_view(title="orbis API"), name="swagger")
 ]
 api_urlpatterns += astrosat_api_urlpatterns
 api_urlpatterns += astrosat_users_api_urlpatterns
