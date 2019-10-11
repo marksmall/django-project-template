@@ -13,7 +13,7 @@ from astrosat.urls import (
 
 from astrosat_users.urls import (
     urlpatterns as astrosat_users_urlpatterns,
-    api_urlpatterns as astrosat_users_api_urlpatterns
+    api_urlpatterns as astrosat_users_api_urlpatterns,
 )
 
 from {{project_name}}.urls import (
@@ -21,8 +21,8 @@ from {{project_name}}.urls import (
     api_urlpatterns as {{project_name}}_api_urlpatterns
 )
 
-from .views import index_view
-from .views_api import app_config_view, fetch_bookmarks, add_bookmark, BookmarkViewSet
+from .views import index_view, app_config_view
+from .views import BookmarkViewSet  # TODO: this class should probably be moved to django-astrosat-core
 
 
 app_name = "core"
@@ -45,13 +45,12 @@ handler500 = "astrosat.views.handler500"
 
 
 api_router = SimpleRouter()
-api_router.register(r'bookmark', BookmarkViewSet)
-
+api_router.register(r"bookmarks", BookmarkViewSet, basename="bookmark")
 api_urlpatterns = [
     path("", include(api_router.urls)),
-    path("swagger/", get_swagger_view(title="orbis API"), name="swagger"),
     path("app/config", app_config_view, name="appconfig"),
-    path("bookmarks", fetch_bookmarks, name="bookmarks"),
+    path("swagger/", get_swagger_view(title="orbis API"), name="swagger"),
+    # path("bookmarks", fetch_bookmarks, name="bookmarks"),
     # path("bookmarks", fetch_bookmarks, name="bookmarks"),
     # path("bookmarks/", add_bookmark, name="bookmark"),
 ]
@@ -94,17 +93,21 @@ urlpatterns = [
 
 
 # media files...
-urlpatterns += static(
-    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 if settings.DEBUG:
 
     # allow the error pages to be accessed during development...
 
-    from functools import partial  # (using partial to pretend an exception has been raised)
-    from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound
+    from functools import (
+        partial,
+    )  # (using partial to pretend an exception has been raised)
+    from django.http import (
+        HttpResponseBadRequest,
+        HttpResponseForbidden,
+        HttpResponseNotFound,
+    )
     from astrosat.views import handler400, handler403, handler404, handler500
 
     urlpatterns += [
@@ -119,8 +122,7 @@ if settings.DEBUG:
     if "debug_toolbar" in settings.INSTALLED_APPS:
         import debug_toolbar
 
-        urlpatterns = [
-            path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
 
 
 urlpatterns += [
