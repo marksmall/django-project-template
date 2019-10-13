@@ -49,14 +49,14 @@ api_router.register(r"bookmarks", BookmarkViewSet, basename="bookmark")
 api_urlpatterns = [
     path("", include(api_router.urls)),
     path("app/config", app_config_view, name="appconfig"),
-    path("swagger/", get_swagger_view(title="orbis API"), name="swagger"),
+    path("swagger/", get_swagger_view(title="{{project_name}} API"), name="swagger"),
     # path("bookmarks", fetch_bookmarks, name="bookmarks"),
     # path("bookmarks", fetch_bookmarks, name="bookmarks"),
     # path("bookmarks/", add_bookmark, name="bookmark"),
 ]
 api_urlpatterns += astrosat_api_urlpatterns
 api_urlpatterns += astrosat_users_api_urlpatterns
-api_urlpatterns += orbis_api_urlpatterns
+api_urlpatterns += {{project_name}}_api_urlpatterns
 
 
 #################
@@ -85,7 +85,6 @@ urlpatterns = [
     # astrosat users...
     path("users/", include(astrosat_users_urlpatterns)),
     # tasks... NA
-    # orbis...  NA
 
     # note: index_view is added at the very end of this module!
 
