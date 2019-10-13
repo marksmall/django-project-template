@@ -10,20 +10,17 @@ import styles from './bookmarks-panel.module.css';
 
 const BookmarksPanel = ({ map }) => {
   const dispatch = useDispatch();
+  const owner = useSelector(state => state.accounts.user.id);
 
   const submit = form => {
     const drawCtrl = map._controls.find(ctrl => ctrl.changeMode);
     const featureCollection = drawCtrl.getAll();
-    // Strip `user_` from feature properties as this is added again, when re-loaded.
-    featureCollection.features = featureCollection.features.map(feature => {
-      const properties = {
-        ...Object.keys(feature.properties).map(key => ({ [key.replace('user_', '')]: feature.properties[key] }))
-      };
-      feature.properties = properties;
-      return feature;
-    });
 
-    dispatch(addBookmark({ ...form, source: featureCollection, center: map.getCenter(), zoom: map.getZoom() }));
+    const { lng, lat } = map.getCenter();
+
+    dispatch(
+      addBookmark({ ...form, feature_collection: featureCollection, center: [lat, lng], zoom: map.getZoom(), owner })
+    );
   };
 
   const chooseBookmark = bookmark => dispatch(selectBookmark(bookmark));

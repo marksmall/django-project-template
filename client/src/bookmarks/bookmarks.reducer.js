@@ -3,6 +3,8 @@ import {
   FETCH_BOOKMARKS_FAILURE,
   ADD_BOOKMARK_SUCCESS,
   ADD_BOOKMARK_FAILURE,
+  DELETE_BOOKMARK_SUCCESS,
+  DELETE_BOOKMARK_FAILURE,
   SELECT_BOOKMARK
 } from './bookmarks.actions';
 
@@ -34,6 +36,20 @@ const reducer = (state = initialState, action) => {
       };
 
     case ADD_BOOKMARK_FAILURE:
+      return { ...state, error: action.error };
+
+    case DELETE_BOOKMARK_SUCCESS:
+      const filteredBookmarks = state.bookmarks.filter(bookmark => bookmark.id !== action.bookmark.id);
+      const isSelectedBookmark = state.selectedBookmark.id === action.bookmark.id;
+      const selectedBookmark = isSelectedBookmark ? null : state.selectedBookmark;
+      return {
+        ...state,
+        bookmarks: filteredBookmarks,
+        selectedBookmark: selectedBookmark,
+        error: null
+      };
+
+    case DELETE_BOOKMARK_FAILURE:
       return { ...state, error: action.error };
 
     case SELECT_BOOKMARK:

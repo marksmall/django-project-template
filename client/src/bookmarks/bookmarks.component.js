@@ -12,13 +12,7 @@ const Bookmarks = ({ map }) => {
 
   return (
     <div className={styles.bookmarks}>
-      <Button
-        shape="round"
-        onClick={() => {
-          setIsOpen(!isOpen);
-          console.log('BOOKMARK MAP STYLE: ', map.getStyle());
-        }}
-      >
+      <Button shape="round" onClick={() => setIsOpen(!isOpen)}>
         <BookmarksIcon className={styles.icon} />
       </Button>
 

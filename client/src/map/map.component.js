@@ -151,10 +151,12 @@ const Map = (
   useMap(
     mapInstance,
     map => {
+      const drawCtrl = mapInstance._controls.find(ctrl => ctrl.changeMode);
       if (selectedBookmark) {
-        const drawCtrl = mapInstance._controls.find(ctrl => ctrl.changeMode);
         drawCtrl.deleteAll();
-        drawCtrl.set(selectedBookmark.source.data);
+        drawCtrl.add(selectedBookmark.feature_collection);
+      } else {
+        drawCtrl.deleteAll();
       }
     },
     [selectedBookmark]
