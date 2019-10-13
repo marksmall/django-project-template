@@ -1,0 +1,10 @@
+.layerPanel {
+  position: absolute;
+  top: 12rem;
+  left: 2rem;
+  z-index: 5;
+  background-color: var(--background-color);
+  padding: 1rem;
+  max-height: 23rem;
+  overflow-y: auto;
+}

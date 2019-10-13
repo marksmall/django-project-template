@@ -39,6 +39,7 @@ import ImageMode from '../annotations/modes/image';
 
 import drawStyles from '../annotations/styles';
 import layoutStyles from './map-layout.module.css';
+import LayerTree from '../layer-tree/layer-tree.component';
 
 // const interpolate = interpolation => (property, filter, values) => [
 //   interpolation,
@@ -122,7 +123,7 @@ const Map = (
       ImageMode
     }
   });
-  useMapControl(mapInstance, layerTree, LayerTreeControl, 'top-right');
+  // useMapControl(mapInstance, layerTree, LayerTreeControl, 'top-right');
 
   useMap(
     mapInstance,
@@ -749,7 +750,7 @@ const Map = (
     <div ref={mapContainer} className={layoutStyles.map} data-testid={`map-${position}`}>
       <Annotations map={mapInstance} />
       <Bookmarks map={mapInstance} />
-
+      <LayerTree map={mapInstance} />
       {/* {popupRef.current &&
         ReactDOM.createPortal(
           <div className={layoutStyles.popup}>
@@ -758,7 +759,6 @@ const Map = (
           </div>,
           popupRef.current
         )} */}
-
       {/* {selectedCustomFeature &&
         ReactDOM.createPortal(
           <div className={layoutStyles.popup}>
