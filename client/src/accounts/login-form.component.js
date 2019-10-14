@@ -21,6 +21,7 @@ const LoginForm = ({ login, user, from }) => {
   if (user) {
     return <Redirect to={from} />;
   }
+  console.log('IS DISABLED: ', Object.keys(errors).length > 0 || Object.keys(values).length === 0);
 
   return (
     <div className={styles['login-form-container']}>

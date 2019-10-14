@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, cleanup } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+
+import { cleanup, render } from '@testing-library/react';
 
 import AccountActivationForm from './account-activation-form.component';
 

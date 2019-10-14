@@ -19,7 +19,7 @@ const PasswordChangeForm = ({ changePassword }) => {
   return (
     <div className={styles['password-change-form-container']}>
       <form className={styles['password-change-form']} onSubmit={handleSubmit}>
-        <h3>Change Password</h3>
+        <h3>Change Your Password</h3>
 
         <div className={styles['form-row']}>
           <label className={styles.label}>

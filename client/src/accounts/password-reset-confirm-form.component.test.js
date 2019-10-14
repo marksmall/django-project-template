@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+
+import { render, cleanup, fireEvent } from '@testing-library/react';
 
 import PasswordResetConfirmForm from './password-reset-confirm-form.component';
 
@@ -29,7 +29,7 @@ describe('Password Reset Form Component', () => {
     expect(getByLabelText('New Password:')).toBeInTheDocument();
     expect(getByLabelText('Password (Confirm):')).toBeInTheDocument();
     expect(getByText('Reset')).toBeInTheDocument();
-    expect(container.querySelector('.submit')).toHaveTextContent('Create Password');
+    expect(getByText('Create Password')).toBeInTheDocument();
   });
 
   it('should enable `Reset` button when form is dirty', async () => {
@@ -46,34 +46,34 @@ describe('Password Reset Form Component', () => {
   });
 
   it('should enable `Create Password` button when form is valid', () => {
-    const { container, getByLabelText } = render(
+    const { getByText, getByLabelText } = render(
       <PasswordResetConfirmForm confirmChangePassword={confirmChangePassword} routerProps={routerProps} />
     );
 
     fireEvent.change(getByLabelText('New Password:'), { target: { value: 'newpassword' } });
     fireEvent.change(getByLabelText('Password (Confirm):'), { target: { value: 'newpassword' } });
 
-    expect(container.querySelector('.submit')).not.toHaveAttribute('disabled');
+    expect(getByText('Create Password')).not.toHaveAttribute('disabled');
   });
 
   it('should not call `confirmChangePassword` function when form is invalid and `Update User` button clicked', () => {
-    const { container } = render(
+    const { getByText } = render(
       <PasswordResetConfirmForm confirmChangePassword={confirmChangePassword} routerProps={routerProps} />
     );
 
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Create Password'));
     expect(confirmChangePassword).not.toHaveBeenCalled();
   });
 
   it('should call `confirmChangePassword` function when form is valid and `Update User` button clicked', () => {
-    const { container, getByLabelText } = render(
+    const { getByText, getByLabelText } = render(
       <PasswordResetConfirmForm confirmChangePassword={confirmChangePassword} routerProps={routerProps} />
     );
 
     fireEvent.change(getByLabelText('New Password:'), { target: { value: 'newpassword' } });
     fireEvent.change(getByLabelText('Password (Confirm):'), { target: { value: 'newpassword' } });
 
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Create Password'));
     expect(confirmChangePassword).toHaveBeenCalled();
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+
+import { render, cleanup, fireEvent } from '@testing-library/react';
 
 import { BrowserRouter } from 'react-router-dom';
 
@@ -23,13 +23,13 @@ describe('Register Form Component', () => {
     );
 
     expect(container.querySelector('form')).toBeInTheDocument();
-    expect(container.querySelector('h3')).toHaveTextContent('Register');
+    expect(container.querySelector('h3')).toHaveTextContent('Register New User');
     expect(getByLabelText('Username:')).toBeInTheDocument();
     expect(getByLabelText('Email Address:')).toBeInTheDocument();
     expect(getByLabelText('Password:')).toBeInTheDocument();
     expect(getByLabelText('Password (Confirm):')).toBeInTheDocument();
     expect(getByText('Reset')).toBeInTheDocument();
-    expect(container.querySelector('.submit')).toHaveTextContent('Register');
+    expect(getByText('Register')).toBeInTheDocument();
   });
 
   it('should enable `Reset` button when form is dirty', async () => {
@@ -48,7 +48,7 @@ describe('Register Form Component', () => {
   });
 
   it('should enable `Register` button when form is valid', () => {
-    const { container, getByLabelText } = render(
+    const { getByText, getByLabelText } = render(
       <BrowserRouter>
         <RegisterForm register={register} />
       </BrowserRouter>
@@ -59,22 +59,22 @@ describe('Register Form Component', () => {
     fireEvent.change(getByLabelText('Password:'), { target: { value: 'password' } });
     fireEvent.change(getByLabelText('Password (Confirm):'), { target: { value: 'password' } });
 
-    expect(container.querySelector('.submit')).not.toHaveAttribute('disabled');
+    expect(getByText('Register')).not.toHaveAttribute('disabled');
   });
 
   it('should not call register function when form is invalid and `Register` button clicked', () => {
-    const { container } = render(
+    const { getByText } = render(
       <BrowserRouter>
         <RegisterForm register={register} />
       </BrowserRouter>
     );
 
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Register'));
     expect(register).not.toHaveBeenCalled();
   });
 
-  xit('should call register function when form is valid and `Register` button clicked', () => {
-    const { container, getByLabelText, debug } = render(
+  it('should call register function when form is valid and `Register` button clicked', () => {
+    const { getByText, getByLabelText } = render(
       <BrowserRouter>
         <RegisterForm register={register} />
       </BrowserRouter>
@@ -85,9 +85,7 @@ describe('Register Form Component', () => {
     fireEvent.change(getByLabelText('Password:'), { target: { value: 'password' } });
     fireEvent.change(getByLabelText('Password (Confirm):'), { target: { value: 'password' } });
 
-    debug();
-
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Register'));
     expect(register).toHaveBeenCalled();
   });
 });

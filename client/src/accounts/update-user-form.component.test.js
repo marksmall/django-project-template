@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+
+import { cleanup, render, fireEvent } from '@testing-library/react';
 
 import UpdateUserForm from './update-user-form.component';
 
@@ -13,13 +13,13 @@ describe('Update User Form Component', () => {
     const { container, getByText, getByLabelText } = render(<UpdateUserForm user={user} updateUser={updateUser} />);
 
     expect(container.querySelector('form')).toBeInTheDocument();
-    expect(container.querySelector('h3')).toHaveTextContent('Update User');
+    expect(container.querySelector('h3')).toHaveTextContent('Update User Details');
     expect(getByLabelText('Username:')).toBeInTheDocument();
     expect(getByLabelText('Email Address:')).toBeInTheDocument();
     expect(getByLabelText('First Name:')).toBeInTheDocument();
     expect(getByLabelText('Last Name:')).toBeInTheDocument();
     expect(getByText('Reset')).toBeInTheDocument();
-    expect(container.querySelector('.submit')).toHaveTextContent('Update User');
+    expect(getByText('Update User')).toBeInTheDocument();
   });
 
   it('should enable `Reset` button when form is dirty', async () => {
@@ -38,31 +38,31 @@ describe('Update User Form Component', () => {
   it('should enable `Update User` button when form is valid', () => {
     const user = {};
     const updateUser = jest.fn();
-    const { container, getByLabelText } = render(<UpdateUserForm user={user} updateUser={updateUser} />);
+    const { getByText, getByLabelText } = render(<UpdateUserForm user={user} updateUser={updateUser} />);
 
     fireEvent.change(getByLabelText('First Name:'), { target: { value: 'John' } });
     fireEvent.change(getByLabelText('Last Name:'), { target: { value: 'John' } });
 
-    expect(container.querySelector('.submit')).not.toHaveAttribute('disabled');
+    expect(getByText('Update User')).not.toHaveAttribute('disabled');
   });
 
   it('should not call updateUser function when form is invalid and `Update User` button clicked', () => {
     const user = {};
     const updateUser = jest.fn();
-    const { container } = render(<UpdateUserForm user={user} updateUser={updateUser} />);
+    const { getByText } = render(<UpdateUserForm user={user} updateUser={updateUser} />);
 
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Update User'));
     expect(updateUser).not.toHaveBeenCalled();
   });
 
   it('should call updateUser function when form is valid and `Update User` button clicked', () => {
     const user = {};
     const updateUser = jest.fn();
-    const { container, getByLabelText } = render(<UpdateUserForm user={user} updateUser={updateUser} />);
+    const { getByText, getByLabelText } = render(<UpdateUserForm user={user} updateUser={updateUser} />);
 
     fireEvent.change(getByLabelText('First Name:'), { target: { value: 'John' } });
     fireEvent.change(getByLabelText('Last Name:'), { target: { value: 'John' } });
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Update User'));
     expect(updateUser).toHaveBeenCalled();
   });
 });

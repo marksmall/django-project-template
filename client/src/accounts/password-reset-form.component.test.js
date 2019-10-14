@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+
+import { render, cleanup, fireEvent } from '@testing-library/react';
 
 import PasswordResetForm from './password-reset-form.component';
 
@@ -18,10 +18,10 @@ describe('Password Reset Form Component', () => {
     const { container, getByText, getByLabelText } = render(<PasswordResetForm resetPassword={resetPassword} />);
 
     expect(container.querySelector('form')).toBeInTheDocument();
-    expect(container.querySelector('h3')).toHaveTextContent('Reset Password');
+    expect(container.querySelector('h3')).toHaveTextContent('Reset Your Password');
     expect(getByLabelText('Email Address:')).toBeInTheDocument();
     expect(getByText('Reset')).toBeInTheDocument();
-    expect(container.querySelector('.submit')).toHaveTextContent('Reset Password');
+    expect(getByText('Reset Password')).toBeInTheDocument();
   });
 
   it('should enable `Reset` button when form is dirty', async () => {
@@ -36,26 +36,26 @@ describe('Password Reset Form Component', () => {
   });
 
   it('should enable `Reset Password` button when form is valid', () => {
-    const { container, getByLabelText } = render(<PasswordResetForm resetPassword={resetPassword} />);
+    const { getByText, getByLabelText } = render(<PasswordResetForm resetPassword={resetPassword} />);
 
     fireEvent.change(getByLabelText('Email Address:'), { target: { value: 'testusername@test.com' } });
 
-    expect(container.querySelector('.submit')).not.toHaveAttribute('disabled');
+    expect(getByText('Reset Password')).not.toHaveAttribute('disabled');
   });
 
   it('should not call updateUser function when form is invalid and `Update User` button clicked', () => {
-    const { container } = render(<PasswordResetForm resetPassword={resetPassword} />);
+    const { getByText } = render(<PasswordResetForm resetPassword={resetPassword} />);
 
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Reset Password'));
     expect(resetPassword).not.toHaveBeenCalled();
   });
 
   it('should call updateUser function when form is valid and `Update User` button clicked', () => {
-    const { container, getByLabelText } = render(<PasswordResetForm resetPassword={resetPassword} />);
+    const { getByText, getByLabelText } = render(<PasswordResetForm resetPassword={resetPassword} />);
 
     fireEvent.change(getByLabelText('Email Address:'), { target: { value: 'testusername@test.com' } });
 
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Reset Password'));
     expect(resetPassword).toHaveBeenCalled();
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+
+import { render, cleanup } from '@testing-library/react';
 
 import ThemeSelector from './theme-selector.component';
 
@@ -24,7 +24,7 @@ describe('Theme Selector Component', () => {
       <ThemeSelector themes={THEMES} selectedTheme={THEMES[0]} selectTheme={handler} />
     );
 
-    expect(getByText('Application Theme:')).toBeInTheDocument();
+    expect(getByText('Theme:')).toBeInTheDocument();
     expect(container.querySelector('.select')).toBeInTheDocument();
     expect(getByText('Light')).toBeInTheDocument();
   });
@@ -35,7 +35,7 @@ describe('Theme Selector Component', () => {
       <ThemeSelector themes={THEMES} selectedTheme={THEMES[1]} selectTheme={handler} />
     );
 
-    expect(getByText('Application Theme:')).toBeInTheDocument();
+    expect(getByText('Theme:')).toBeInTheDocument();
     expect(container.querySelector('.select')).toBeInTheDocument();
     expect(getByText('Dark')).toBeInTheDocument();
   });

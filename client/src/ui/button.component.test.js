@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+
+import { cleanup, render, fireEvent } from '@testing-library/react';
 
 import Button from './button.component';
 import { ReactComponent as CloseIcon } from './close.svg';
@@ -15,9 +16,7 @@ describe('Button Component', () => {
   });
 
   it('should render an `a` tag if passed a `href` attribute', () => {
-    const { container, getByText } = render(
-      <Button href="foo">Some Text</Button>
-    );
+    const { container, getByText } = render(<Button href="foo">Some Text</Button>);
 
     expect(container.querySelector('a')).toBeInTheDocument();
     expect(getByText('Some Text')).toBeInTheDocument();
@@ -67,10 +66,10 @@ describe('Button Component', () => {
     });
   });
 
-  describe('type', () => {
-    it('should add the round class for styling, when type attribute provided', () => {
+  describe('shape', () => {
+    it('should add the round class for styling, when shape attribute provided', () => {
       const { getByText } = render(
-        <Button active={true} type="round">
+        <Button active={true} shape="round">
           Some Text
         </Button>
       );

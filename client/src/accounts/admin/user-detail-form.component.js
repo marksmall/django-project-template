@@ -18,7 +18,7 @@ const UserDetailForm = ({ createUser }) => {
   return (
     <div className={styles['user-detail-form-container']}>
       <form className={styles['user-detail-form']} onSubmit={handleSubmit}>
-        <h3>Create User</h3>
+        <h3>Create New User</h3>
 
         <div className={styles['form-row']}>
           <label className={styles.label}>

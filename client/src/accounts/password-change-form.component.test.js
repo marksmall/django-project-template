@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+
+import { render, cleanup, fireEvent } from '@testing-library/react';
 
 import PasswordChangeForm from './password-change-form.component';
 
@@ -17,12 +17,12 @@ describe('Password Reset Form Component', () => {
     const { container, getByText, getByLabelText } = render(<PasswordChangeForm changePassword={changePassword} />);
 
     expect(container.querySelector('form')).toBeInTheDocument();
-    expect(container.querySelector('h3')).toHaveTextContent('Change Password');
+    expect(getByText('Change Your Password')).toBeInTheDocument();
     expect(getByLabelText('Old Password:')).toBeInTheDocument();
     expect(getByLabelText('New Password:')).toBeInTheDocument();
     expect(getByLabelText('Password (Confirm):')).toBeInTheDocument();
     expect(getByText('Reset')).toBeInTheDocument();
-    expect(container.querySelector('.submit')).toHaveTextContent('Change Password');
+    expect(getByText('Change Password')).toBeInTheDocument();
   });
 
   it('should enable `Reset` button when form is dirty', async () => {
@@ -37,30 +37,30 @@ describe('Password Reset Form Component', () => {
   });
 
   it('should enable `Change Password` button when form is valid', () => {
-    const { container, getByLabelText } = render(<PasswordChangeForm changePassword={changePassword} />);
+    const { getByText, getByLabelText } = render(<PasswordChangeForm changePassword={changePassword} />);
 
     fireEvent.change(getByLabelText('Old Password:'), { target: { value: 'oldpassword' } });
     fireEvent.change(getByLabelText('New Password:'), { target: { value: 'newpassword' } });
     fireEvent.change(getByLabelText('Password (Confirm):'), { target: { value: 'newpassword' } });
 
-    expect(container.querySelector('.submit')).not.toHaveAttribute('disabled');
+    expect(getByText('Change Password')).not.toHaveAttribute('disabled');
   });
 
   it('should not call `changePassword` function when form is invalid and `Update User` button clicked', () => {
-    const { container } = render(<PasswordChangeForm changePassword={changePassword} />);
+    const { getByText } = render(<PasswordChangeForm changePassword={changePassword} />);
 
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Change Password'));
     expect(changePassword).not.toHaveBeenCalled();
   });
 
   it('should call `changePassword` function when form is valid and `Update User` button clicked', () => {
-    const { container, getByLabelText } = render(<PasswordChangeForm changePassword={changePassword} />);
+    const { getByText, getByLabelText } = render(<PasswordChangeForm changePassword={changePassword} />);
 
     fireEvent.change(getByLabelText('Old Password:'), { target: { value: 'oldpassword' } });
     fireEvent.change(getByLabelText('New Password:'), { target: { value: 'newpassword' } });
     fireEvent.change(getByLabelText('Password (Confirm):'), { target: { value: 'newpassword' } });
 
-    fireEvent.click(container.querySelector('.submit'));
+    fireEvent.click(getByText('Change Password'));
     expect(changePassword).toHaveBeenCalled();
   });
 });

@@ -19,7 +19,7 @@ const UpdateUserForm = ({ user, updateUser }) => {
   return (
     <div className={styles['update-user-form-container']}>
       <form className={styles['update-user-form']} onSubmit={handleSubmit}>
-        <h3>Update User</h3>
+        <h3>Update User Details</h3>
 
         <div className={styles['form-row']}>
           <label className={styles.label}>

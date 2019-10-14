@@ -19,7 +19,7 @@ const PasswordResetForm = ({ resetPassword }) => {
   return (
     <div className={styles['password-reset-form-container']}>
       <form className={styles['password-reset-form']} onSubmit={handleSubmit}>
-        <h3>Reset Password</h3>
+        <h3>Reset Your Password</h3>
 
         <div className={styles['form-row']}>
           <label className={styles.label}>
