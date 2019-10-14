@@ -1,0 +1,18 @@
+name: RELEASE
+
+on: deployment
+
+jobs:
+  release:
+    name: Build Releasable Artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Build Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd client
+          yarn install
+          yarn release

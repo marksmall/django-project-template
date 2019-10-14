@@ -1,0 +1,124 @@
+name: BUILD
+
+on: [push]
+
+env:
+  AWS_REGISTRY: 339570402237.dkr.ecr.eu-west-1.amazonaws.com
+  AWS_REPOSITORY: company/orbis/django
+
+jobs:
+  client:
+    name: Client-side Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          version: 10.x
+      - name: yarn install, and test
+        env:
+          CI: "true"
+        working-directory: client
+        run: |
+          yarn install
+          yarn test
+
+  server:
+    name: Server-side Tests
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.7.3
+      volumes:
+        - .:/opt/orbis
+        - ./client:/opt/orbis/client/
+      ports:
+        - "8000:8000"
+      env:
+        DJANGO_SETTINGS_MODULE: core.settings
+    services:
+      db:
+        image: kartoza/postgis:11.0-2.5
+        env:
+          POSTGRES_DBNAME: orbis
+          POSTGRES_USER: orbis
+          POSTGRES_PASS: orbis
+          ALLOW_IP_RANGE: 0.0.0.0/0
+        ports:
+          - "5666:5432"
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup container
+        run: |
+          apt-get update && apt-get install -y postgresql-client python3-gdal
+          pip3 install --upgrade pip
+          pip3 install --upgrade pipenv
+          pipenv install --dev --system
+          server/manage.py migrate --noinput
+      - name: Run tests
+        working-directory: server
+        run: pytest ./
+
+  docker:
+    name: Build and tag Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build Docker Image
+        run: |
+          export GIT_REF=${GITHUB_REF##*/}
+          export GIT_SHA=${GITHUB_SHA:0:7}
+          docker build . -t ${AWS_REGISTRY}/${AWS_REPOSITORY}:${GIT_REF} -t ${AWS_REGISTRY}/${AWS_REPOSITORY}:${GIT_SHA} --build-arg COMMIT_HASH=${GIT_REF} --build-arg GIT_BRANCH=${GIT_SHA}
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt install python3-setuptools
+          pip3 install awscli --upgrade --user
+          aws --version
+
+      - name: Setup AWS Credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Login to AWS
+        run: |
+          eval $(aws ecr get-login --no-include-email --region eu-west-1)
+
+      - name: Push image to AWS Docker Registry
+        run: |
+          export GIT_REF=${GITHUB_REF##*/}
+          export GIT_SHA=${GITHUB_SHA:0:7}
+          docker push ${AWS_REGISTRY}/${AWS_REPOSITORY}:${GIT_REF}
+          docker push ${AWS_REGISTRY}/${AWS_REPOSITORY}:${GIT_SHA}
+  # e2e:
+  #   name: Browser Tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@master
+  #   - name: Use Node.js 10.x
+  #     uses: actions/setup-node@v1
+  #     with:
+  #       version: 10.x
+  #   - name: Build front-end
+  #     env:
+  #       CI: "true"
+  #     working-directory: client
+  #     run: |
+  #       yarn install
+  #       yarn run build
+  #   - name: Authenticate with AWS
+  #     uses: actions/aws/cli@master
+  #     env:
+  #       AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+  #       AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+  #     with:
+  #       args: ecr get-login --no-include-email --region eu-west-1 | sh && docker pull 339570402237.dkr.ecr.eu-west-1.amazonaws.com/company/orbis/dashboard/cypress-runner:latest
+  #   - name: Run tests
+  #     env:
+  #       AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+  #       AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+  #     run: |
+  #       echo -e "DJANGO_AWS_ACCESS_KEY_ID=${{secrets.AWS_ACCESS_KEY_ID}}\nDJANGO_AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}" > .env.local
+  #       ./scripts/run-cypress-tests.sh
