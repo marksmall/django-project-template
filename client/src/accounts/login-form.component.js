@@ -21,14 +21,11 @@ const LoginForm = ({ login, user, from }) => {
   if (user) {
     return <Redirect to={from} />;
   }
-  console.log('IS DISABLED: ', Object.keys(errors).length > 0 || Object.keys(values).length === 0);
 
   return (
     <div className={styles['login-form-container']}>
       <form className={styles['login-form']} onSubmit={handleSubmit}>
         <h3>Log In</h3>
-
-        {/* {console.log("WHAT THE FU")} */}
 
         <p>
           If you have not account, you can <Link to={'/register'}>register here</Link>
@@ -50,22 +47,6 @@ const LoginForm = ({ login, user, from }) => {
           <em className={styles.required}>(Required)</em>
         </div>
         {errors.username && <p className={styles['error-message']}>{errors.username}</p>}
-
-        {/* <div className={styles['form-row']}>
-          <label className={styles.label}>
-            Email Address:
-            <input
-              className={`${styles.input} ${errors.email ? styles.error : ''}`}
-              type="email"
-              name="email"
-              onChange={handleChange}
-              value={values.email || ''}
-              required
-            />
-          </label>
-          <em className={styles.required}>(Required)</em>
-        </div>
-        {errors.email && <p className={styles['error-message']}>{errors.email}</p>} */}
 
         <div className={styles['form-row']}>
           <label className={styles.label}>

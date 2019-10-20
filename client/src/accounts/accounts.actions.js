@@ -39,11 +39,8 @@ export const register = form => async dispatch => {
   const response = await sendData(API.register, form, JSON_HEADERS);
 
   if (!response.ok) {
-    // const errorResponse = await response.json();
-    console.log('RESPONSE: ', JSON.stringify(response), response.statusText);
-    const errorResponse = {};
+    const errorResponse = await response.json();
     const error = new Error(errorResponseToString(errorResponse));
-    console.log('ERROR: ', error);
 
     NotificationManager.error(error.message, `"Registration Error - ${response.statusText}`, 50000, () => {});
 
@@ -67,7 +64,6 @@ export const activateAccount = form => async () => {
 
   if (!response.ok) {
     const errorResponse = await response.json();
-    console.log('ERROR RESPONSE: ', errorResponse);
     const error = new Error(errorResponseToString(errorResponse));
 
     NotificationManager.error(
@@ -82,7 +78,6 @@ export const activateAccount = form => async () => {
 };
 
 export const fetchUser = (username = 'current') => async dispatch => {
-  console.log('FETCHING USER: ', username);
   const response = await fetch(`${API.user}${username}/`, { credentials: 'include' });
 
   if (!response.ok) {
@@ -96,7 +91,6 @@ export const fetchUser = (username = 'current') => async dispatch => {
   }
 
   const user = await response.json();
-  // console.log('USER: ', user);
   return dispatch({ type: FETCH_USER_REQUESTED_SUCCESS, user });
 };
 
@@ -126,9 +120,7 @@ export const login = form => async dispatch => {
   NotificationManager.success('Successfully logged in', 'Successful Login', 5000, () => {});
 
   // Now that we are logged in, retrieve the user's
-  console.log('FETCH USER: ', form.username);
   dispatch(fetchUser(form.username));
-  // console.log('USER FETCHED');
 
   return dispatch({ type: LOGIN_REQUESTED_SUCCESS, userKey });
 };
@@ -162,7 +154,7 @@ export const changePassword = form => async (dispatch, getState) => {
       userKey: { key }
     }
   } = getState();
-  console.log('CHANGE PASSWORD: ', key, form);
+
   const headers = {
     ...JSON_HEADERS //,
     // authorization: "Token " + key
@@ -212,12 +204,13 @@ export const confirmChangePassword = (form, params) => async () => {
 
 export const updateUser = form => async (dispatch, getState) => {
   const {
-    account: { user }
+    accounts: { user }
   } = getState();
   const data = {
     ...user,
     ...form
   };
+
   const response = await sendData(API.user, data, JSON_HEADERS, 'PUT');
 
   if (!response.ok) {
