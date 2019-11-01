@@ -4,18 +4,19 @@ services:
   db:
     image: kartoza/postgis:11.0-2.5
     environment:
-      POSTGRES_USER: {{project_name}}
-      POSTGRES_PASS: {{project_name}}
-      POSTGRES_DBNAME: {{project_name}}
+      POSTGRES_USER: { { project_name } }
+      POSTGRES_PASS: { { project_name } }
+      POSTGRES_DBNAME: { { project_name } }
       ALLOW_IP_RANGE: 0.0.0.0/0
     ports:
       - "5666:5432"
     networks:
-      - {{project_name}}
+      - { { project_name } }
 
   server:
     build:
       context: .
+      dockerfile: Dockerfile.artifact
       args:
         TOKEN: "${GITHUB_REGISTRY_TOKEN}"
     tty: true
@@ -23,15 +24,11 @@ services:
       DJANGO_SETTINGS_MODULE: core.settings
       PIPENV_NOSPIN: 1
       GITHUB_REGISTRY_TOKEN: "${GITHUB_REGISTRY_TOKEN}"
-    volumes:
-      - ./client:/home/app/client/
     ports:
-      - "8000:8000"
-      - "3000:3000"
-      - "35729:35729"
+      - "80:80"
     networks:
-      - {{project_name}}
+      - { { project_name } }
 
 networks:
-  {{project_name}}:
+  { { project_name } }:
     driver: bridge

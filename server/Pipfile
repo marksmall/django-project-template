@@ -59,4 +59,4 @@ pytest-django = ">=3.5"
 pytest-sugar = ">=0.9"
 
 [requires]
-python_version = "3.7.3"
+python_version = "3.6.8"

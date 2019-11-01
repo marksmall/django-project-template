@@ -4,9 +4,11 @@
 for f in `find . -name \*.template`; do mv $f ${f%.*}; done
 
 # Setup python dependencies lock file.
-pipenv install
+cd server && pipenv install
 
 echo "You must now add at least a Google Analytics ID and a Mapbox Token to `.env.local` to run locally"
+
+cd ..
 
 # Initialize a new git repo
 git init .
