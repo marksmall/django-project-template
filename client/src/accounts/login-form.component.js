@@ -6,6 +6,7 @@ import useForm from '../hooks/useForm';
 import validate from './login-form.validator';
 
 import Button from '../ui/button.component';
+import PasswordField from './password-field.component';
 // import Button from 'astrosat-ui';
 
 import styles from './login-form.module.css';
@@ -51,14 +52,15 @@ const LoginForm = ({ login, user, from }) => {
         <div className={styles['form-row']}>
           <label className={styles.label}>
             Password:
-            <input
+            <PasswordField />
+            {/* <input
               className={`${styles.input} ${errors.password ? styles.error : ''}`}
               type="password"
               name="password"
               onChange={handleChange}
               value={values.password || ''}
               required
-            />
+            /> */}
           </label>
           <em className={styles.required}>(Required)</em>
         </div>
