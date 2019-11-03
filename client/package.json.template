@@ -42,7 +42,8 @@
     "redux": "^4.0.4",
     "redux-query-sync": "^0.1.9",
     "redux-thunk": "2.3.0",
-    "reselect": "4.0.0"
+    "reselect": "4.0.0",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^3.0.4",

@@ -7,6 +7,8 @@ import validate from './register-form.validator';
 
 import Button from '../ui/button.component';
 // import Button from 'astrosat-ui';
+import PasswordField from './password-field.component';
+import PasswordStrengthMeter from './password-strength-meter.component';
 
 import styles from './register-form.module.css';
 
@@ -23,6 +25,8 @@ const RegisterForm = ({ register }) => {
   if (redirectToLogin) {
     return <Redirect to="/login" />;
   }
+
+  console.log('VALUSE: ', values);
 
   return (
     <div className={styles['register-form-container']}>
@@ -69,14 +73,15 @@ const RegisterForm = ({ register }) => {
         <div className={styles['form-row']}>
           <label className={styles.label}>
             Password:
-            <input
+            <PasswordField />
+            {/* <input
               className={`${styles.input} ${errors.password1 ? styles.error : ''}`}
               type="password"
               name="password1"
               onChange={handleChange}
               value={values.password1 || ''}
               required
-            />
+            /> */}
           </label>
           <em className={styles.required}>(Required)</em>
         </div>
@@ -85,18 +90,21 @@ const RegisterForm = ({ register }) => {
         <div className={styles['form-row']}>
           <label className={styles.label}>
             Password (Confirm):
-            <input
+            <PasswordField />
+            {/* <input
               className={`${styles.input} ${errors.password2 ? styles.error : ''}`}
               type="password"
               name="password2"
               onChange={handleChange}
               value={values.password2 || ''}
               required
-            />
+            /> */}
           </label>
           <em className={styles.required}>(Required)</em>
         </div>
         {errors.password2 && <p className={styles['error-message']}>{errors.password2}</p>}
+
+        <PasswordStrengthMeter password={values.password1} />
 
         <div className={styles.buttons}>
           <Button type="reset" className={styles.button} onClick={reset} disabled={Object.keys(values).length === 0}>

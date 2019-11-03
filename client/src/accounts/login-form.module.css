@@ -5,27 +5,42 @@
 }
 
 .login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   padding: 3rem;
   border: 1px solid #000;
   border-radius: 0.4rem;
   list-style-type: none;
 }
 
+.fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
 .form-row {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   color: green;
   font-weight: bolder;
 }
 
 .input {
-  padding: 0.3rem;
-  border-radius: 0.3rem;
-  color: blue;
+  flex-grow: 2;
+  height: 1.5rem;
+  /* padding: 0.3rem; */
+  /* border-radius: 0.3rem; */
+  /* color: blue; */
 }
 
 .error {
